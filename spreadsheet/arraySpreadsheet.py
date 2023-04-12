@@ -14,6 +14,9 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
     def __init__(self):
         # TO BE IMPLEMENTED
+        self.spreadsheet = [[None]]
+        self.rows = 0
+        self.columns = 0
         pass
 
 
@@ -22,6 +25,21 @@ class ArraySpreadsheet(BaseSpreadsheet):
         Construct the data structure to store nodes.
         @param lCells: list of cells to be stored
         """
+        for cell in lCells:
+            if self.rows < cell.row:
+                for i in range(cell.row - self.rows):
+                    # append a row with corresponding columns
+                    # we add 1 because indexes start at 0
+                    self.spreadsheet.append([None] * (self.rows + 1))
+                self.rows = cell.row
+            
+            if self.columns < cell.col:
+                diff = cell.col- self.columns
+                for row in self.spreadsheet:
+                    row.extend([None] * (diff))
+                self.columns = cell.col
+            
+            self.spreadsheet[cell.row][cell.col] = cell.val
 
         # TO BE IMPLEMENTED
         pass
@@ -33,12 +51,13 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
-
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+        
+        if self.spreadsheet == None:
+            return False
+        else:
+            self.rows += 1
+            self.spreadsheet.append([None] * (self.rows + 1))
+            return True
 
 
     def appendCol(self)->bool:
@@ -47,12 +66,13 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
-
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+        if self.spreadsheet == None:
+            return False
+        else:
+            self.columns += 1
+            for row in self.spreadsheet:
+                row.extend([None])
+            return True
 
 
     def insertRow(self, rowIndex: int)->bool:
@@ -110,11 +130,8 @@ class ArraySpreadsheet(BaseSpreadsheet):
         @return Number of rows the spreadsheet has.
         """
 
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return 0
+        # Add 1 because indexing starts at 0
+        return self.rows + 1
 
 
     def colNum(self)->int:
@@ -122,11 +139,8 @@ class ArraySpreadsheet(BaseSpreadsheet):
         @return Number of column the spreadsheet has.
         """
 
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return 0
+        # Add 1 because indexing starts at 0
+        return self.columns + 1
 
 
 
