@@ -139,7 +139,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         Construct the data structure to store nodes.
         @param lCells: list of cells to be stored
         """
-        currRow = 0
+        currRow = -1
         #llRow = DoubleLinkedList()
         for val in lCells:
             if val.row != currRow:
