@@ -84,11 +84,13 @@ class ArraySpreadsheet(BaseSpreadsheet):
         @return True if operation was successful, or False if not, e.g., rowIndex is invalid.
         """
 
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+        if rowIndex < -1 or rowIndex >= self.rowNum():
+            return False
+        else:
+            # IR 0 will insert a row AFTER row 0
+            self.spreadsheet.insert(rowIndex + 1, [None] * self.columns)
+            self.rows += 1
+            return True
 
 
     def insertCol(self, colIndex: int)->bool:
@@ -99,12 +101,14 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         return True if operation was successful, or False if not, e.g., colIndex is invalid.
         """
-
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+        
+        if colIndex < -1 or colIndex >= self.colNum():
+            return False
+        else:
+            for row in self.spreadsheet:
+                row.insert(colIndex + 1, None)
+            self.columns += 1
+            return True
 
 
     def update(self, rowIndex: int, colIndex: int, value: float) -> bool:
@@ -118,11 +122,11 @@ class ArraySpreadsheet(BaseSpreadsheet):
         @return True if cell can be updated.  False if cannot, e.g., row or column indices do not exist.
         """
 
-        # TO BE IMPLEMENTED
-        pass
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+        if rowIndex < -1 or rowIndex >= self.rowNum() or colIndex < -1 or colIndex >= self.colNum():
+            return False
+        else:
+            self.spreadsheet[rowIndex][colIndex] = value
+            return True
 
 
     def rowNum(self)->int:
@@ -152,22 +156,34 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return List of cells (row, col) that contains the input value.
 	    """
-
-        # TO BE IMPLEMENTED
-        pass
+        matches = []
+        curr_row = 0
+        
+        for row in self.spreadsheet:
+            curr_col = 0
+            for val in row:
+                if val == value:
+                    matches.append((curr_row, curr_col))
+                curr_col += 1
+            curr_row += 1
 
         # REPLACE WITH APPROPRIATE RETURN VALUE
-        return []
-
-
+        return matches
 
     def entries(self) -> [Cell]:
         """
         @return A list of cells that have values (i.e., all non None cells).
         """
 
-        # TO BE IMPLEMENTED
-        pass
+        matches = []
+        curr_row = 0
+        
+        for row in self.spreadsheet:
+            curr_col = 0
+            for val in row:
+                if val != None:
+                    matches.append((curr_row, curr_col, val))
+                curr_col += 1
+            curr_row += 1
 
-        # TO BE IMPLEMENTED
-        return []
+        return matches
