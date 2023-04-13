@@ -18,12 +18,59 @@ from spreadsheet.cell import Cell
 # __author__ = 'Jeffrey Chan'
 # __copyright__ = 'Copyright 2023, RMIT University'
 # ------------------------------------------------------------------------
+class Node:
+    '''
+    A basic type in linked list
+    '''
+
+
+    def __init__(self, value):
+        self.value = value
+        
+
+        self.next = None
+        self.prev = None
+
+    def __init__(self, value,row,col):
+        self.value = value
+
+        self.row = row
+        self.col = col
+
+        self.next = None
+        self.prev = None
+
+       
+
+class DoubleLinkedList:
+    """ 
+    Double linked list that implements interface MyList.
+
+    """
+    def __init__(self):
+        """
+        Default constructor.
+        """
+        self.head = None
+        self.tail = None
+        self.len = 0
+
+    def append(self, new_data): 
+        if self.head == None:
+            self.head = new_data
+            self.tail = new_data
+        else:
+            self.tail.next = new_data
+            new_data.prev = self.tail
+            self.tail = new_data
+            self.len =+1
 
 class LinkedListSpreadsheet(BaseSpreadsheet):
 
     def __init__(self):
         # TO BE IMPLEMENTED
-        pass
+        self.rows = DoubleLinkedList()
+        
 
 
     def buildSpreadsheet(self, lCells: [Cell]):
@@ -31,18 +78,28 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         Construct the data structure to store nodes.
         @param lCells: list of cells to be stored
         """
+        currRow = 0
+        #llRow = DoubleLinkedList()
+        for val in lCells:
+            if val.row != currRow:
+                currRow = val.row
+                llRow = DoubleLinkedList()
+                llRow.append(Node(val))
+                self.rows.append(Node(llRow))
+            else:
+                llRow.append(Node(val.val,val.row, val.col))
 
-        # TO BE IMPLEMENTED
-        pass
+
 
 
     def appendRow(self):
         """
         Appends an empty row to the spreadsheet.
         """
+        self.rows.append(Node(None))
 
         # TO BE IMPLEMENTED
-        pass
+        
 
 
     def appendCol(self):
@@ -51,8 +108,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
-        # TO BE IMPLEMENTED
-        pass
+        currN = self.rows.head
+        while currN.next != None:
+            currRowN = currN.value.head
+            currRowN.append(Node(None))
+        
 
 
     def insertRow(self, rowIndex: int)->bool:
@@ -65,7 +125,19 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
 
         # TO BE IMPLEMENTED
-        pass
+        if rowIndex > self.rows.len:
+            return False
+        
+        currN = self.rows.head
+        
+        while rowIndex > 0:
+            currN = currN.next
+            rowIndex -= 1
+        #insert node in between currN and currN.next
+        newNode = Node(None)
+        newNode.next = currN.next
+        newNode.prev = currN
+        currN.next = newNode
 
         # REPLACE WITH APPROPRIATE RETURN VALUE
         return True
