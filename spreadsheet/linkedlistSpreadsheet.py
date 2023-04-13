@@ -99,6 +99,12 @@ class DoubleLinkedList:
                 currNode = currNode.prev
                 col += 1
             currNode.val = val
+        else:
+            currNode = self.head
+            while col > 0:
+                currNode = currNode.next
+                col -= 1
+            currNode.val = val
     
     def findVals(self, value):
         currNode = self.head
