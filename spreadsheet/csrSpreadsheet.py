@@ -31,6 +31,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         # assume row is a reasonable value range of [0, n]
         # where 0 is the first row and n = self.rows
         for cell in lCells:
+            # --------------
             # UPDATING sumA
             # --------------
             if cell.row > len(self.sumA):
@@ -43,52 +44,23 @@ class CSRSpreadsheet(BaseSpreadsheet):
             for i in range(cell.row, len(self.sumA)):
                 self.sumA[i] += cell.val
 
+            # --------------
             # UPDATING colA and valA
             # because inserts happen at the same place respectively
             # --------------
-            if cell.col > self.columns:
-                # if new max is found, set columns as new max
-                self.columns = cell.col
-            
-            check_sum_change = self.sumA[0]
-            num_sum_changes = -1
-            # each time the sum changes in sumA, that means a new value
-            for curr_row_sum in range(cell.row + 1):
-                if self.sumA[curr_row_sum] != check_sum_change:
-                    num_sum_changes += 1
-                    check_sum_change = self.sumA[curr_row_sum]
-            # cases for when data is in the same row as another
-            # curr_sum = self.sumA[num_sum_changes]
-            # column_order = 0
-            # while curr_sum < self.sumA[num_sum_changes]:
-            #     curr_sum += self.valA[column_order]
-            #     column_order += 1
-            # index = num_sum_changes + (column_order - num_sum_changes)
-
-
-
-
-            # attempt 2, kill 2 birds with 1 stone
             if len(self.colA) == 0:
                 self.colA.append(cell.col)
                 self.valA.append(cell.val)
             else:
                 curr_sum = 0
                 sum_index = 0
-
+                # keep adding the values in valA until we find a place where
+                # the current cell value matches the expected values in sumA
                 while self.sumA[cell.row] - curr_sum != cell.val:
                     curr_sum += self.valA[sum_index]
                     sum_index += 1
-
                 self.colA.insert(sum_index, cell.col)
                 self.valA.insert(sum_index, cell.val)
-
-        print(self.sumA)
-        print(self.colA)
-        print(self.valA)
-
-
-        
 
 
     def appendRow(self):
