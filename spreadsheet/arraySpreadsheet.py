@@ -36,13 +36,10 @@ class ArraySpreadsheet(BaseSpreadsheet):
             if self.columns < cell.col:
                 diff = cell.col- self.columns
                 for row in self.spreadsheet:
-                    row.extend([None] * (diff))
+                    row.extend([None] * diff)
                 self.columns = cell.col
             
             self.spreadsheet[cell.row][cell.col] = cell.val
-
-        # TO BE IMPLEMENTED
-        pass
 
 
     def appendRow(self)->bool:
