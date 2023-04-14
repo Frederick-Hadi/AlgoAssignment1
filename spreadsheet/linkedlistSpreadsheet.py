@@ -18,6 +18,8 @@ from spreadsheet.cell import Cell
 # __author__ = 'Jeffrey Chan'
 # __copyright__ = 'Copyright 2023, RMIT University'
 # ------------------------------------------------------------------------
+
+#python3 spreadsheetFilebased.py linkedlist sampleData.txt sampleCommands.in linkedList.out
 class Node:
     #should work without this right?
     '''
@@ -47,64 +49,175 @@ class DoubleLinkedList:
         self.len = 0
 
 
-    #add a value to the end of the list
-    def append(self, new_data): 
-        if self.head == None:
-            self.head = new_data
-            self.tail = new_data
+    def printLL(self):
+        currNode = self.head
+        while currNode != None:
+            x = currNode.value.head
+            while x != None:
+                print("At row: ",x.row, "column: ",x.col,", the value is: ",x.value)
+                x = x.next
+            print()
+            currNode = currNode.next
+        
+
+
+    def printList(self):
+        if(self.head == None):
+            print('Empty!')
         else:
-            self.tail.next = new_data
-            new_data.prev = self.tail
-            self.tail = new_data
-            self.len =+1
+            node = self.head
+            while(node is not None):
+                print(node.value),
+                node = node.next 
+
+    #add a value to the end of the list
+    def append(self, data,row = False): 
+
+        if row:
+            toConstruct = self.head.value.len
+            col = 0
+            while toConstruct > 0:
+                data.value.append(Node("OMG", self.len, col))
+                toConstruct -= 1
+                col+=1
+            #data.value.printList()
+
+        if self.head == None:
+            self.head = data
+            self.tail = data
+            self.len += 1
+        else:
+            if row:
+                print(type(self.tail))
+                print(type(self.tail.value))
+            data.prev = self.tail
+            self.tail.next = data
+            self.tail = data
+            self.len +=1
 
     #insert a value at a certain position
-    def insertAt(self, index, value):
+    def correctValsRows(self, node):
+        currN = node.next
+        #tempLL = []
+        while currN != None:
+            currRNode = currN.value.head
+            while currRNode != None:
+                currRNode.row += 1
+                #tempLL.append(currRNode)
+                currRNode = currRNode.next
+            currN = currN.next
+
+
+    def insertAt(self, index, value, row=True):
         
-            #loop from either end of the list
-        currNode = None
-        if index <= self.len/2:
+        #loop from either end of the list
+     
+        toConstruct = self.head.value.len
+        susOmeter = 0
+        while toConstruct > 0:
+            value.value.append(Node("SPICY",index,susOmeter))
+            susOmeter += 1
+            toConstruct -= 1
+        #self.len += 1
+
+        if index == self.len-1:
+            value.prev = self.tail
+            self.tail.next = value
+            self.tail = value
+            self.correctValsRows(value)
+            self.len += 1
+            return
+    
+        elif index == 0:
+            value.next = self.head
+            self.head.prev = value
+            self.head = value
+            self.correctValsRows(value)
+            self.len += 1
+            return
+    
+        elif index < self.len/2:
             currNode = self.head
-            #setting the head if inserted as first row
-            if index == 0:
-                self.head = value
             while index > 0:
                 currNode = currNode.next
                 index -= 1
         else:
             currNode = self.tail
-            #setting the tail if inserted as last row
-            if index == self.len:
-                self.tail = value
-            while index <= self.len:
+            while index < self.len:
                 currNode = currNode.prev
                 index += 1
         
-        #insert the value
+        prevN = currNode.prev
         value.next = currNode
-        value.prev = currNode.prev
+        value.prev = prevN
+        prevN.next = value
         currNode.prev = value
+        self.correctValsRows(value)
+        self.len += 1
+
+
+    def correctValsCols(self, node):
+        currNode = node.next
+        while currNode != None:
+                currNode.col += 1
+                currNode = currNode.next
+        self.len += 1
+
+
+    def insertAtCol(self, index, value):
+        
+        if index == self.len:
+            value.prev = self.tail
+            self.tail.next = value
+            self.tail = value
+            self.correctValsCols(value)
+            return
     
-        toConstruct = self.head.len
-        while toConstruct > 0:
-            value.append(Node(None))
-            toConstruct -= 1
+        elif index == 0:
+            value.next = self.head
+            self.head.prev = value
+            self.head = value
+            currNode = self.head
+            self.correctValsCols(value)
+            return
+    
+        elif index < self.len/2:
+            currNode = self.head
+            while index > 0:
+                currNode = currNode.next
+                index -= 1
+        else:
+            currNode = self.tail
+            while index < self.len:
+                currNode = currNode.prev
+                index += 1
+        
+        prevN = currNode.prev
+        value.next = currNode
+        value.prev = prevN
+        prevN.next = value
+        currNode.prev = value
+        self.correctValsCols(value)
+        
        
 
-    def updateVal(self,col,val):
-
+    def updateVal(self,row,col,val):
+        
         if col > self.len/2:
             currNode = self.tail
-            while col <= self.len:
+            while col < self.len-1:
                 currNode = currNode.prev
                 col += 1
-            currNode.val = val
+                #print(currNode)
+            print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
+            currNode.value = val
         else:
             currNode = self.head
             while col > 0:
                 currNode = currNode.next
                 col -= 1
-            currNode.val = val
+            print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
+            currNode.value = val
     
     def findVals(self, value):
         currNode = self.head
@@ -113,14 +226,16 @@ class DoubleLinkedList:
             if currNode.value == value:
                 listOfNodes.append((currNode.row,currNode.col))
             currNode = currNode.next
+        #print(listOfNodes)
         return listOfNodes
     
     def findNonEmpty(self):
         currNode = self.head
         listOfNodes = []
         while currNode != None:
-            if currNode.value != None:
+            if currNode.value == float:
                 listOfNodes.append((currNode.row,currNode.col))
+                #print("ran")
             currNode = currNode.next
         return listOfNodes
             
@@ -141,14 +256,28 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         currRow = -1
         #llRow = DoubleLinkedList()
+        maxRows = 0
+        maxCols = 0
         for val in lCells:
-            if val.row != currRow:
-                currRow = val.row
-                llRow = DoubleLinkedList()
-                llRow.append(Node(val))
-                self.spread.append(Node(llRow))
-            else:
-                llRow.append(Node(val.val,val.row, val.col))
+            if val.row > maxRows:
+                maxRows = val.row
+            if val.col > maxCols:
+                maxCols = val.col
+        
+        for i in range(maxRows+1):
+            llRow = DoubleLinkedList()
+            for j in range(maxCols+1):
+                llRow.append(Node("EMPTY", i,j))
+            self.spread.append(Node(llRow,i))
+        
+        for val in lCells:
+            print(val)
+            self.update(val.row,val.col,val.val)
+            
+            #print(x)
+        
+        #self.spread.printLL()
+        #print("sheet built")
 
 
 
@@ -157,8 +286,10 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         Appends an empty row to the spreadsheet.
         """
-        self.spread.append(Node(None))
-
+        self.spread.append(Node(DoubleLinkedList()),True)
+        #print("after")
+        #self.spread.printLL()
+        return True
         # TO BE IMPLEMENTED
         
 
@@ -170,10 +301,13 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         @return True if operation was successful, or False if not.
         """
         currN = self.spread.head
-        while currN.next != None:
-            currRowN = currN.value.head
-            currRowN.append(Node(None))
-        
+        while currN != None:
+            currRowN = currN.value
+            currRowN.append(Node('empty',currRowN.head.row, currRowN.len))
+            currN = currN.next
+        #print("after append col")
+        #self.spread.printLL()
+        return True
 
 
     def insertRow(self, rowIndex: int)->bool:
@@ -184,11 +318,13 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not, e.g., rowIndex is invalid.
         """
-        if rowIndex < -1 or rowIndex > self.len:
+        if rowIndex < 0 or rowIndex > self.spread.len:
             return False
         
-        newNode = Node(None)
-        self.spread.insertAt(rowIndex+1, newNode)
+        newNode = DoubleLinkedList()
+        self.spread.insertAt(rowIndex, Node(newNode,rowIndex))
+        #print("after insert row")
+        #self.spread.printLL()
         return True
         
 
@@ -200,16 +336,18 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         @param colIndex Index of the existing column that will be before the newly inserted row.  If inserting as first column, specify colIndex to be -1.
         """
 
-        colVals = self.spread.head.len
+        colVals = self.spread.head.value.len
         if colIndex < -1 or colIndex > colVals:
             return False
-
+        colIndex+=1
         currN = self.spread.head
-        while currN.next != None:
-            currRowN = currN.value.head
-            currRowN.insertAt(colIndex+1, Node(None))
+        while currN != None:
+            currRowN = currN.value
+            currRowN.insertAtCol(colIndex, Node('EMPty',currRowN.head.row,colIndex))
             currN = currN.next
-
+        #print("after insert col")
+        #self.spread.printLL()  
+        
         # REPLACE WITH APPROPRIATE RETURN VALUE
         return True
 
@@ -224,17 +362,36 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return True if cell can be updated.  False if cannot, e.g., row or column indices do not exist.
         """
-
-        if rowIndex > self.spread.len or colIndex > self.spread.head.len or rowIndex < 0 or colIndex < 0:
+        #print(self.spread.len)
+        #print(self.spread.head.value.len)
+        if rowIndex >= self.spread.len or colIndex >= self.spread.head.value.len or rowIndex <= 0 or colIndex <= 0:
             return False
+        
+        row = rowIndex
+        col = colIndex
+        print("row: ",row)
+        print("col: ",col)
 
-        currN = self.spread.head
-        if rowIndex <= self.spread.len/2:
+        #rowIndex+=1
+        #colIndex+=1
+        if rowIndex < self.spread.len/2:
+            currN = self.spread.head
             while rowIndex > 0:
                 currN = currN.next
                 rowIndex -= 1
-            currN.updateVal(colIndex, value)
-
+            currN.value.updateVal(row,col, value)
+        else:
+            currN = self.spread.tail
+            #rowIndex +=1
+            print("amount of rows in the list: ",self.spread.len)
+            while rowIndex < self.spread.len-1:
+                currN = currN.prev
+                rowIndex += 1
+    
+            currN.value.updateVal(row ,col, value)
+        
+        print("after update")
+        self.spread.printLL()
         return True
 
 
@@ -253,7 +410,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
 
         # TO BE IMPLEMENTED
-        return self.spread.head.len
+        return self.spread.head.value.len
 
 
 
@@ -268,11 +425,12 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         currN = self.spread.head
         values = []
-        while currN.next != None:
-            values  += currN.findVals(value)
+        while currN != None:
+            currRowN = currN.value
+            values  += currRowN.findVals(value)
             currN = currN.next
 
-
+        #print("this was values: ", values)
         # REPLACE WITH APPROPRIATE RETURN VALUE
         return values
 
@@ -288,9 +446,10 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #return all non none celss
         currN = self.spread.head
         values = []
-        while currN.next != None:
-            values  += currN.findNonEmpty()
+        while currN != None:
+            currRowN = currN.value
+            values  += currRowN.findNonEmpty()
             currN = currN.next
-
+        #print("this was values, entries: ", values)
         # TO BE IMPLEMENTED
         return values
