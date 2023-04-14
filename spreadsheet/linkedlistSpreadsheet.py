@@ -77,7 +77,7 @@ class DoubleLinkedList:
             toConstruct = self.head.value.len
             col = 0
             while toConstruct > 0:
-                data.value.append(Node("OMG", self.len, col))
+                data.value.append(Node(None, self.len, col))
                 toConstruct -= 1
                 col+=1
             #data.value.printList()
@@ -87,9 +87,6 @@ class DoubleLinkedList:
             self.tail = data
             self.len += 1
         else:
-            if row:
-                print(type(self.tail))
-                print(type(self.tail.value))
             data.prev = self.tail
             self.tail.next = data
             self.tail = data
@@ -115,7 +112,7 @@ class DoubleLinkedList:
         toConstruct = self.head.value.len
         susOmeter = 0
         while toConstruct > 0:
-            value.value.append(Node("SPICY",index,susOmeter))
+            value.value.append(Node(None,index,susOmeter))
             susOmeter += 1
             toConstruct -= 1
         #self.len += 1
@@ -209,14 +206,14 @@ class DoubleLinkedList:
                 currNode = currNode.prev
                 col += 1
                 #print(currNode)
-            print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
+            #print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
             currNode.value = val
         else:
             currNode = self.head
             while col > 0:
                 currNode = currNode.next
                 col -= 1
-            print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
+            #print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
             currNode.value = val
     
     def findVals(self, value):
@@ -233,8 +230,8 @@ class DoubleLinkedList:
         currNode = self.head
         listOfNodes = []
         while currNode != None:
-            if currNode.value == float:
-                listOfNodes.append((currNode.row,currNode.col))
+            if currNode.value != None:
+                listOfNodes.append((currNode.row,currNode.col,currNode.value))
                 #print("ran")
             currNode = currNode.next
         return listOfNodes
@@ -267,11 +264,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         for i in range(maxRows+1):
             llRow = DoubleLinkedList()
             for j in range(maxCols+1):
-                llRow.append(Node("EMPTY", i,j))
+                llRow.append(Node(None, i,j))
             self.spread.append(Node(llRow,i))
         
         for val in lCells:
-            print(val)
+            #print(val)
             self.update(val.row,val.col,val.val)
             
             #print(x)
@@ -303,7 +300,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         currN = self.spread.head
         while currN != None:
             currRowN = currN.value
-            currRowN.append(Node('empty',currRowN.head.row, currRowN.len))
+            currRowN.append(Node(None,currRowN.head.row, currRowN.len))
             currN = currN.next
         #print("after append col")
         #self.spread.printLL()
@@ -337,13 +334,13 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
 
         colVals = self.spread.head.value.len
-        if colIndex < -1 or colIndex > colVals:
+        if colIndex < -1 or colIndex >= colVals:
             return False
         colIndex+=1
         currN = self.spread.head
         while currN != None:
             currRowN = currN.value
-            currRowN.insertAtCol(colIndex, Node('EMPty',currRowN.head.row,colIndex))
+            currRowN.insertAtCol(colIndex, Node(None,currRowN.head.row,colIndex))
             currN = currN.next
         #print("after insert col")
         #self.spread.printLL()  
@@ -369,8 +366,8 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         
         row = rowIndex
         col = colIndex
-        print("row: ",row)
-        print("col: ",col)
+        #print("row: ",row)
+        #print("col: ",col)
 
         #rowIndex+=1
         #colIndex+=1
@@ -383,15 +380,15 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         else:
             currN = self.spread.tail
             #rowIndex +=1
-            print("amount of rows in the list: ",self.spread.len)
+            #print("amount of rows in the list: ",self.spread.len)
             while rowIndex < self.spread.len-1:
                 currN = currN.prev
                 rowIndex += 1
     
             currN.value.updateVal(row ,col, value)
         
-        print("after update")
-        self.spread.printLL()
+        #print("after update")
+        #self.spread.printLL()
         return True
 
 
