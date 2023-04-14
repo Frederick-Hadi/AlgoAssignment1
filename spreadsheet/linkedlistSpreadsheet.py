@@ -298,6 +298,8 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         @return True if operation was successful, or False if not.
         """
         currN = self.spread.head
+        if currN == None:
+            return False
         while currN != None:
             currRowN = currN.value
             currRowN.append(Node(None,currRowN.head.row, currRowN.len))
@@ -332,7 +334,8 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @param colIndex Index of the existing column that will be before the newly inserted row.  If inserting as first column, specify colIndex to be -1.
         """
-
+        if self.spread.head ==None:
+            return False
         colVals = self.spread.head.value.len
         if colIndex < -1 or colIndex >= colVals:
             return False
@@ -361,6 +364,8 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         #print(self.spread.len)
         #print(self.spread.head.value.len)
+        if self.spread.head == None:
+            return False
         if rowIndex >= self.spread.len or colIndex >= self.spread.head.value.len or rowIndex <= 0 or colIndex <= 0:
             return False
         
