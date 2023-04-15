@@ -1,6 +1,8 @@
 from spreadsheet.baseSpreadsheet import BaseSpreadsheet
 from spreadsheet.cell import Cell
 
+import math
+
 # ------------------------------------------------------------------------
 # This class is required TO BE IMPLEMENTED
 # Trie-based dictionary implementation.
@@ -39,8 +41,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 # with the repeated value at the end of the original array
                 self.sumA.extend([self.sumA[-1]] * (cell.row + 1 - len(self.sumA)))
             # update sum
-            # need a + 1 because sumA[0] is always 0
-            # (sum of everything up to row 0 is always 0 because nothing comes before it)
             for i in range(cell.row, len(self.sumA)):
                 self.sumA[i] += cell.val
 
@@ -48,19 +48,24 @@ class CSRSpreadsheet(BaseSpreadsheet):
             # UPDATING colA and valA
             # because inserts happen at the same place respectively
             # --------------
+            if cell.col > self.columns:
+                self.columns = cell.col
+
             if len(self.colA) == 0:
                 self.colA.append(cell.col)
                 self.valA.append(cell.val)
             else:
                 curr_sum = 0
                 sum_index = 0
-                # keep adding the values in valA until we find a place where
+                # keep summing the values in valA until we find a place where
                 # the current cell value matches the expected values in sumA
                 while self.sumA[cell.row] - curr_sum != cell.val:
                     curr_sum += self.valA[sum_index]
                     sum_index += 1
                 self.colA.insert(sum_index, cell.col)
                 self.valA.insert(sum_index, cell.val)
+
+        
 
 
     def appendRow(self):
@@ -69,9 +74,11 @@ class CSRSpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
-
-        # TO BE IMPLEMENTED
-        pass
+        if self.sumA != None:
+            self.sumA.append(self.sumA[-1])
+            return True
+        else:
+            return False
 
 
     def appendCol(self):
@@ -80,9 +87,11 @@ class CSRSpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
-
-        # TO BE IMPLEMENTED
-        pass
+        if self.colA != None:
+            self.columns += 1
+            return True
+        else:
+            return False
 
 
     def insertRow(self, rowIndex: int)->bool:
@@ -94,9 +103,12 @@ class CSRSpreadsheet(BaseSpreadsheet):
         @return True if operation was successful, or False if not, e.g., rowIndex is invalid.
         """
 
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
-
+        if rowIndex < -1 or rowIndex > self.rowNum():
+            return False
+        else:
+            self.sumA.insert(rowIndex, self.sumA[rowIndex - 1])
+            return True
+            
 
     def insertCol(self, colIndex: int)->bool:
         """
@@ -106,9 +118,14 @@ class CSRSpreadsheet(BaseSpreadsheet):
 
         return True if operation was successful, or False if not, e.g., colIndex is invalid.
         """
-
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+        self.columns += 1
+        if colIndex < -1 or colIndex > self.rowNum():
+            return False
+        else:
+            # update new highest index column
+            if colIndex > self.columns:
+                self.columns = colIndex
+            return True
 
 
 
@@ -122,11 +139,128 @@ class CSRSpreadsheet(BaseSpreadsheet):
 
         @return True if cell can be updated.  False if cannot, e.g., row or column indices do not exist.
         """
+        if rowIndex < -1 or rowIndex > self.rowNum() or colIndex < -1 or colIndex > self.columns:
+            return False
+        else:
+            # diff = value - self.valA[rowIndex]
+            # for i in range(rowIndex, self.rowNum()):
+            #     self.sumA
 
-        # TO BE IMPLEMENTED
+            # # get the index of the cell to be updated in sumA
+            # curr_sum = 0
+            # sum_index = 0
+            # # keep adding the values in valA until we find a place where
+            # # the current cell value matches the expected values in sumA
+            # while self.sumA[rowIndex] - curr_sum != THE VALUE OF CELL TO BE UPDATED:
+            #     curr_sum += self.valA[sum_index]
+            #     sum_index += 1
 
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return True
+            # diff = value - self.valA[sum_index]
+
+            # for i in range(sum_index, self.rowNum()):
+            #     self.valA[i] += diff
+            print("PREV")
+            print(self.sumA)
+            print(self.colA)
+            print(self.valA)
+            print("------------------")
+
+            # curr_sum = 0
+            # check_change = self.sumA[0]
+            # # val_index is the same as col_index
+            # val_index = 0
+            # for row in range(rowIndex):
+            #     # once the next value in sumA changes 
+            #     # (the next non-zero value has been reached)
+            #     if self.sumA[row] != check_change:
+            #         curr_sum += self.valA[val_index]
+            #         # if there are multiple NZVs in one row,
+            #         # the sum of values in valA so far and the current sumA item
+            #         # will not match, so keep going through until it does.
+            #         while curr_sum != self.sumA[row]:
+            #             val_index += 1
+            #             curr_sum += self.valA[val_index]
+                    
+            #         val_index += 1
+            #         check_change = self.sumA[row]
+
+            # self.valA[val_index] = value
+
+            # curr_sum = 0
+            # val_index = 0
+            # min_val_index = 0
+            # max_val_index = 0
+            # while curr_sum != self.sumA[rowIndex]:
+            #     curr_sum += self.valA[val_index]
+            #     val_index += 1
+            # # val_index is now the minimum
+
+            # --------------
+            # UPDATING sumA
+            # --------------
+
+            previous_sum = self.sumA[rowIndex]
+
+            # update sum
+            for i in range(rowIndex, len(self.sumA)):
+                self.sumA[i] += value
+
+            print("AFTER")
+            print(self.sumA)
+            print(self.colA)
+            print(self.valA)
+            print("------------------")
+
+            # --------------
+            # UPDATING colA and valA
+            # because inserts happen at the same place respectively
+            # --------------
+
+            curr_sum = 0
+            sum_index = 0
+            # keep summing the values in valA until we find a place where
+            # the current cell value matches the expected values in sumA
+            print("value:", value)
+            while math.isclose(self.sumA[rowIndex] - curr_sum, value) == False:
+                print(self.sumA[rowIndex], "-", curr_sum, "=", self.sumA[rowIndex] - curr_sum)
+                print(math.isclose(self.sumA[rowIndex] - curr_sum, value))
+
+                curr_sum += self.valA[sum_index]
+                sum_index += 1
+            print(self.sumA[rowIndex], "-", curr_sum, "=", self.sumA[rowIndex] - curr_sum)
+            print(math.isclose(self.sumA[rowIndex] - curr_sum, value))
+            
+            sum_index -= 1
+
+            print()
+            if colIndex == self.colA[sum_index]:
+                for i in range(rowIndex, len(self.sumA)):
+                    self.sumA[i] -= self.valA[sum_index]
+                self.valA[sum_index] = value
+                
+                print("NEW THINGY")
+                print(self.sumA)
+                print(self.colA)
+                print(self.valA)
+                print()
+                print()
+            else:
+                sum_index += 1
+                print("uuuh")
+                self.colA.insert(sum_index, colIndex)
+                self.valA.insert(sum_index, value)
+
+                print(colIndex, sum_index)
+                print(self.colA)
+
+                print("YARGARRGARRRRAGRARRRARAA")
+                print(self.sumA)
+                print(self.colA)
+                print(self.valA)
+                print()
+                print()
+            return True
+
 
 
     def rowNum(self)->int:
@@ -134,7 +268,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         @return Number of rows the spreadsheet has.
         """
 
-        return len(self.sumA) - 1
+        return len(self.sumA)
 
 
     def colNum(self)->int:
@@ -142,9 +276,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         @return Number of column the spreadsheet has.
         """
         # TO BE IMPLEMENTED
-        return 0
-
-
+        return self.columns + 1
 
 
     def find(self, value: float) -> [(int, int)]:
@@ -155,11 +287,46 @@ class CSRSpreadsheet(BaseSpreadsheet):
 
         @return List of cells (row, col) that contains the input value.
 	    """
+        matches = []
+        # rowIndex = 0
+        # colIndex = 0
 
-        # TO BE IMPLEMENTED
 
-        # REPLACE WITH APPROPRIATE RETURN VALUE
-        return []
+        # curr_sum = 0
+        # sum_index = 0
+        # keep summing the values in valA until we find a place where
+        # the current cell value matches the expected values in sumA
+        # for rowIndex in range (self.rowNum()):
+        #     if self.sumA[rowIndex] - curr_sum != value:
+        #         matches.append((rowIndex, colIndex))
+        #         sum_index += 1
+        #     curr_sum += self.valA[sum_index]
+        #     rowIndex += 1
+
+        curr_sum = 0
+        check_change = self.sumA[0]
+        # val_index is the same as col_index
+        val_index = 0
+        for row_index, sum in enumerate(self.sumA):
+            # once the next value in sumA changes 
+            # (the next non-zero value has been reached)
+            if sum != check_change:
+                curr_sum += self.valA[val_index]
+                if self.valA[val_index] == value:
+                    matches.append((row_index, self.colA[val_index]))
+                # if there are multiple NZVs in one row,
+                # the sum of values in valA so far and the current sumA item
+                # will not match, so keep going through until it does.
+                while curr_sum != sum:
+                    val_index += 1
+                    if self.valA[val_index] == value:
+                        matches.append((row_index, self.colA[val_index]))
+                    curr_sum += self.valA[val_index]
+                
+                val_index += 1
+                check_change = self.sumA[row_index]
+
+        return matches
 
 
 
@@ -167,6 +334,31 @@ class CSRSpreadsheet(BaseSpreadsheet):
     def entries(self) -> [Cell]:
         """
         return a list of cells that have values (i.e., all non None cells).
-        """
+        """ 
+        NZVs = []
 
-        return []
+        curr_sum = 0
+        check_change = self.sumA[0]
+        # val_index is the same as col_index
+        val_index = 0
+        for row_index, sum in enumerate(self.sumA):
+            # once the next value in sumA changes 
+            # (the next non-zero value has been reached)
+            if math.isclose(sum, check_change) == False:
+                curr_sum += self.valA[val_index]
+                
+                NZVs.append(Cell(row_index, self.colA[val_index], self.valA[val_index]))
+                # if there are multiple NZVs in one row,
+                # the sum of values in valA so far and the current sumA item
+                # will not match, so keep going through until it does.
+                while math.isclose(curr_sum, sum) == False:
+                    val_index += 1
+                    # print(self.colA, "trying to access", val_index)
+                    print(curr_sum, "tryna be", sum)
+                    NZVs.append(Cell(row_index, self.colA[val_index], self.valA[val_index]))
+                    curr_sum += self.valA[val_index]
+                
+                val_index += 1
+                check_change = self.sumA[row_index]
+
+        return NZVs
