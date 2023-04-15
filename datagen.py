@@ -11,8 +11,8 @@ def write_txt_file(filename, x, t_range, y_range, u_range):
         uMax = 0
         valMax = 0
 
-        maxRows = t_range[1]
-        maxCols = y_range[1]
+        maxRows = x
+        maxCols = x
         x = sparsity(x)
         values = []
         for i in range(x):
