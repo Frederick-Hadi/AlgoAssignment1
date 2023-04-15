@@ -107,22 +107,11 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if rowIndex < -1 or rowIndex > self.rowNum():
             return False
         else:
-            print("PREV")
-            print(rowIndex)
-            print(self.sumA)
-            print(self.colA)
-            print(self.valA)
-            print("------------------")
+
 
             # self.sumA.insert(rowIndex, self.sumA[rowIndex - 1])
             self.sumA.insert(rowIndex + 1, self.sumA[rowIndex])
-            
-            print("AFTER")
-            print(self.sumA)
-            print(self.colA)
-            print(self.valA)
-            print("------------------")
-            print()
+
 
             return True
             
@@ -139,12 +128,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if colIndex < -1 or colIndex > self.rowNum():
             return False
         else:
-            print("PREV")
-            print(colIndex)
-            print(self.sumA)
-            print(self.colA)
-            print(self.valA)
-            print("------------------")
             # update new highest index column
             if colIndex > self.columns:
                 self.columns = colIndex
@@ -153,12 +136,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
             for i in range(len(self.colA)):
                 if self.colA[i] > colIndex:
                     self.colA[i] += 1
-            print("AFTER")
-            print(self.sumA)
-            print(self.colA)
-            print(self.valA)
-            print("------------------")
-            print()
             
             return True
 
