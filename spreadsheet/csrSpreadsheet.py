@@ -20,7 +20,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         self.colA = []
         self.valA = []
         self.sumA = [0]
-        # self.rows = 0 (you can do len(self.sumA))
+
         # keep track of max column index
         self.columns = 0
 
@@ -107,12 +107,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if rowIndex < -1 or rowIndex > self.rowNum():
             return False
         else:
-
-
-            # self.sumA.insert(rowIndex, self.sumA[rowIndex - 1])
             self.sumA.insert(rowIndex + 1, self.sumA[rowIndex])
-
-
             return True
             
 
@@ -158,7 +153,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
             for i in range(rowIndex, len(self.sumA)):
                 self.sumA[i] += value
 
-
             # --------------
             # UPDATING colA and valA
             # because inserts happen at the same place respectively
@@ -199,7 +193,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         """
         @return Number of column the spreadsheet has.
         """
-        # TO BE IMPLEMENTED
+
         return self.columns + 1
 
 
@@ -212,25 +206,11 @@ class CSRSpreadsheet(BaseSpreadsheet):
         @return List of cells (row, col) that contains the input value.
 	    """
         matches = []
-        # rowIndex = 0
-        # colIndex = 0
-
-
-        # curr_sum = 0
-        # sum_index = 0
-        # keep summing the values in valA until we find a place where
-        # the current cell value matches the expected values in sumA
-        # for rowIndex in range (self.rowNum()):
-        #     if self.sumA[rowIndex] - curr_sum != value:
-        #         matches.append((rowIndex, colIndex))
-        #         sum_index += 1
-        #     curr_sum += self.valA[sum_index]
-        #     rowIndex += 1
-
         curr_sum = 0
         check_change = self.sumA[0]
         # val_index is the same as col_index
         val_index = 0
+
         for row_index, sum in enumerate(self.sumA):
             # once the next value in sumA changes 
             # (the next non-zero value has been reached)
@@ -277,7 +257,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 # will not match, so keep going through until it does.
                 while math.isclose(curr_sum, sum) == False:
                     val_index += 1
-                    # print(self.colA, "trying to access", val_index)
                     NZVs.append(Cell(row_index, self.colA[val_index], self.valA[val_index]))
                     curr_sum += self.valA[val_index]
                 

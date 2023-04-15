@@ -179,7 +179,7 @@ class ArraySpreadsheet(BaseSpreadsheet):
             curr_col = 0
             for val in row:
                 if val != None:
-                    matches.append((curr_row, curr_col, val))
+                    matches.append(Cell(curr_row, curr_col, val))
                 curr_col += 1
             curr_row += 1
 
