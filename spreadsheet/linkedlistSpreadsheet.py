@@ -74,13 +74,16 @@ class DoubleLinkedList:
     def append(self, data,row = False): 
 
         if row:
-            toConstruct = self.head.value.len
-            col = 0
-            while toConstruct > 0:
-                data.value.append(Node(None, self.len, col))
-                toConstruct -= 1
-                col+=1
+            if self.head != None:
+                toConstruct = self.head.value.len
+                col = 0
+                while toConstruct > 0:
+                    data.value.append(Node(None, self.len, col))
+                    toConstruct -= 1
+                    col+=1
             #data.value.printList()
+            else:
+                data.value.append(Node(None, self.len, 0))
 
         if self.head == None:
             self.head = data
@@ -255,6 +258,23 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #llRow = DoubleLinkedList()
         maxRows = 0
         maxCols = 0
+        #maybe remove next for loop by getting max rows and cols from last value of l
+        # same code, as below in string i just dont loop over lcells twice. 
+        '''for val in lCells:
+            if val.row > maxRows:
+                diff = val.row - maxRows
+                for i in range(diff+1):
+                    self.spread.append(Node(DoubleLinkedList()),True)
+                maxRows = val.row
+            if val.col > maxCols:
+                diff = val.col - maxCols
+                for i in range(diff):
+                    self.appendCol()
+                maxCols = val.col
+            if val.row <= maxRows and val.row >= 0:
+                if val.col <= maxCols and val.col >= 0:
+                    self.update(val.row,val.col,val.val) 
+        #'''
         for val in lCells:
             if val.row > maxRows:
                 maxRows = val.row
@@ -271,7 +291,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
             #print(val)
             self.update(val.row,val.col,val.val)
             
-            #print(x)
+            #print(x)"""
         
         #self.spread.printLL()
         #print("sheet built")
