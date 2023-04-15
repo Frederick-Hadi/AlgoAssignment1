@@ -79,7 +79,7 @@ def command(fileName, rows,cols,vals):
 
 
 
-r,c,v = write_txt_file("tasty", 100, (0, 100), (0, 50), (0, 20))
+r,c,v = write_txt_file("tasty", 100, (1, 100), (1, 50), (0, 20))
 command("commands.in", r,c,v)
 
 def run():
