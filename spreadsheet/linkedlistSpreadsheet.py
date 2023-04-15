@@ -234,7 +234,7 @@ class DoubleLinkedList:
         listOfNodes = []
         while currNode != None:
             if currNode.value != None:
-                listOfNodes.append((currNode.row,currNode.col,currNode.value))
+                listOfNodes.append(Cell(currNode.row,currNode.col,currNode.value))
                 #print("ran")
             currNode = currNode.next
         return listOfNodes
