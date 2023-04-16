@@ -1,5 +1,6 @@
 import random
 import os
+import time
 # python3 spreadsheetFilebased.py linkedlist tasty commands.in DataGen.txt
 def write_txt_file(filename, x, t_range, y_range, u_range):
     # x is the number of rows in the file
@@ -77,11 +78,34 @@ def command(fileName, rows,cols,vals):
         f.write(f"E\n")
         f.close()
 
+#TODO change sizes?
+databaseSizes = [5,10,50,100,500,1000]
+
+#holds the randomly generated databases
+databaseNames = ["Saber", "Lancer", "Archer", "Rider", "Assassin", "Berserker"]
+
+#hold the results of if the commands worked or not
+resultNames = ["Shirou","Kiritsugu","Rin","Sakura","Kirei","Illya"]
+
+#straight forward
+databaseTypes = ["csr", "linkedlist", "array"]
+
+#holds the times in the order of databaseTypes
+overall = ["enuma","excalibur","gae"]
 
 
-r,c,v = write_txt_file("tasty", 100, (1, 100), (1, 50), (0, 20))
-command("commands.in", r,c,v)
-
-def run():
-    return os.system("python3 spreadsheetFilebased.py linkedlist tasty commands.in DataGen.txt")
-run()
+             
+for i in range (3):
+    with open(overall[i], "w") as f:
+        f.write(f"___________________________________________________________\n")
+        for x in range(6):
+            r,c,v = write_txt_file(databaseNames[x], databaseSizes[x], (0, databaseSizes[x]), (0, databaseSizes[x]), (-20, 20))
+            command("commands.in", r,c,v)
+            start_time = time.perf_counter()
+            os.system("python3 spreadsheetFilebased.py " + databaseTypes[i] + " " + databaseNames[x] + " commands.in " + resultNames[x] + ".txt")
+            end_time = time.perf_counter()
+            elapsed_time = end_time - start_time
+            f.write(f"Iteration {x}: Elapsed time: {elapsed_time} seconds\n")
+        f.write(f"___________________________________________________________\n")
+        print("done with " + databaseTypes[i])
+        f.close()

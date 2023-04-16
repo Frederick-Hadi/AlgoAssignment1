@@ -384,9 +384,12 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         #print(self.spread.len)
         #print(self.spread.head.value.len)
+        #print("updating row: ",rowIndex," col ",colIndex," with value: ",value)
+        #print("current spreadsheet len: ",self.spread.len," and current row len: ",self.spread.head.value.len)
+        #print()
         if self.spread.head == None:
             return False
-        if rowIndex >= self.spread.len or colIndex >= self.spread.head.value.len or rowIndex <= 0 or colIndex <= 0:
+        if rowIndex >= self.spread.len or colIndex >= self.spread.head.value.len or rowIndex < 0 or colIndex < 0:
             return False
         
         row = rowIndex

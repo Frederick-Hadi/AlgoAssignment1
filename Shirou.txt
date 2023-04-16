@@ -1,0 +1,9 @@
+Number of rows = 101
+Number of columns = 101
+Printing output of find(3.64): (3,3)
+Number of rows = 101
+Number of columns = 101
+Printing output of entries(): (3,3,3.64) | (100,100,1.00)
+Number of rows = 101
+Number of columns = 101
+Printing output of entries(): (3,3,3.64) | (100,100,1.00)
