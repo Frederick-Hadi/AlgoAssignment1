@@ -98,7 +98,7 @@ def command1():
 
 #TODO change sizes?
 #databaseSizes = [(5,8),(10,7),(50,70),(100,50),(500,70),(1000,1000)]
-databaseSizes = [5,10,50,100,500,1000]
+databaseSizes = [5,10,50,100,250,500]
 
 #holds the randomly generated databases
 databaseNames = ["Saber", "Lancer", "Archer", "Rider", "Assassin", "Berserker"]
