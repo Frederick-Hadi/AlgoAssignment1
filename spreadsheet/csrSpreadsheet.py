@@ -59,7 +59,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 sum_index = 0
                 # keep summing the values in valA until we find a place where
                 # the current cell value matches the expected values in sumA
-                while self.sumA[cell.row] - curr_sum != cell.val:
+                while math.isclose(self.sumA[cell.row] - curr_sum, cell.val) == False:
                     curr_sum += self.valA[sum_index]
                     sum_index += 1
                 self.colA.insert(sum_index, cell.col)
@@ -221,7 +221,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 # if there are multiple NZVs in one row,
                 # the sum of values in valA so far and the current sumA item
                 # will not match, so keep going through until it does.
-                while curr_sum != sum:
+                while math.isclose(curr_sum, sum) == False:
                     val_index += 1
                     if self.valA[val_index] == value:
                         matches.append((row_index, self.colA[val_index]))

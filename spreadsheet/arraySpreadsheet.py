@@ -26,19 +26,25 @@ class ArraySpreadsheet(BaseSpreadsheet):
         @param lCells: list of cells to be stored
         """
         for cell in lCells:
+            # extend number of rows
             if self.rows < cell.row:
                 for i in range(cell.row - self.rows):
                     # append a row with corresponding columns
                     # we add 1 because indexes start at 0
-                    self.spreadsheet.append([None] * (self.rows + 1))
+                    self.spreadsheet.append([None] * (self.colNum()))
                 self.rows = cell.row
             
+            # extend number of columns
             if self.columns < cell.col:
-                diff = cell.col- self.columns
-                for row in self.spreadsheet:
-                    row.extend([None] * diff)
+                diff = cell.col - self.columns
+                for i in range(self.rowNum()):
+                    self.spreadsheet[i].extend([None] * diff)
                 self.columns = cell.col
             
+            # print(len(self.spreadsheet), "x", len(self.spreadsheet[0]), cell.row, cell.col)
+            # for thing in self.spreadsheet:
+            #     print(len(thing))
+            # print(len(self.spreadsheet[cell.row]))
             self.spreadsheet[cell.row][cell.col] = cell.val
 
 
@@ -132,7 +138,8 @@ class ArraySpreadsheet(BaseSpreadsheet):
         """
 
         # Add 1 because indexing starts at 0
-        return self.rows + 1
+        # return self.rows + 1
+        return len(self.spreadsheet)
 
 
     def colNum(self)->int:
