@@ -15,7 +15,7 @@ def write_txt_file(filename, r,c, u_range):
         rowRange = (0,maxRows)
         colRange = (0,maxCols)
 
-        x = sparsity(r*c)
+        x = sparsity(r)
         values = []
 
         #generating random values in random rows and cols
@@ -39,7 +39,7 @@ def write_txt_file(filename, r,c, u_range):
 
 # sparsity is the percentage of values we will fill for the spreadsheet.
 def sparsity(x):
-    return int(0.05*x)
+    return int(0.3*x)
 
 def command(fileName, rows,cols,vals):
     #print("Rows: {rows}, Cols: {cols}")

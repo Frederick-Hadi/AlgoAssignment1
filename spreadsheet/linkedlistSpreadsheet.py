@@ -260,7 +260,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         maxCols = 0
         #maybe remove next for loop by getting max rows and cols from last value of l
         # same code, as below in string i just dont loop over lcells twice. 
-        for val in lCells:
+        '''for val in lCells:
             if val.row > maxRows:
                 diff = val.row - maxRows
                 for i in range(diff+1):
@@ -275,7 +275,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
                 if val.col <= maxCols and val.col >= 0:
                     self.update(val.row,val.col,val.val) 
         #'''
-        """for val in lCells:
+        for val in lCells:
             if val.row > maxRows:
                 maxRows = val.row
             if val.col > maxCols:
