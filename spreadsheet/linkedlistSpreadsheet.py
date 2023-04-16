@@ -415,8 +415,8 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
     
             currN.value.updateVal(row ,col, value)
         
-        print("after update")
-        self.spread.printLL()
+        #print("after update")
+        #self.spread.printLL()
         return True
 
 
