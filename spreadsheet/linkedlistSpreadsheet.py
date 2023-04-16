@@ -260,22 +260,22 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         maxCols = 0
         #maybe remove next for loop by getting max rows and cols from last value of l
         # same code, as below in string i just dont loop over lcells twice. 
-        '''for val in lCells:
+        for val in lCells:
             if val.row > maxRows:
                 diff = val.row - maxRows
                 for i in range(diff+1):
                     self.spread.append(Node(DoubleLinkedList()),True)
-                maxRows = val.row
+                maxRows = self.spread.len
             if val.col > maxCols:
                 diff = val.col - maxCols
                 for i in range(diff):
                     self.appendCol()
-                maxCols = val.col
+                maxCols = self.spread.head.value.len
             if val.row <= maxRows and val.row >= 0:
                 if val.col <= maxCols and val.col >= 0:
                     self.update(val.row,val.col,val.val) 
         #'''
-        for val in lCells:
+        """for val in lCells:
             if val.row > maxRows:
                 maxRows = val.row
             if val.col > maxCols:
@@ -291,7 +291,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
             #print(val)
             self.update(val.row,val.col,val.val)
             
-            #print(x)"""
+            #print(x)"""""
         
         #self.spread.printLL()
         #print("sheet built")
@@ -415,8 +415,8 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
     
             currN.value.updateVal(row ,col, value)
         
-        #print("after update")
-        #self.spread.printLL()
+        print("after update")
+        self.spread.printLL()
         return True
 
 
