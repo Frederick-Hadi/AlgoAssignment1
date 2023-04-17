@@ -41,12 +41,14 @@ class CSRSpreadsheet(BaseSpreadsheet):
         for cell in lCells:
             
             print("Attempting adding (", cell.row, cell.col, cell.val, ") while rows is", self.rowNum(), "and columns is", self.colNum())
+            self.print_summary()
             # --------------
             # UPDATING sumA
             # --------------
             if cell.row > self.rowNum() - 1:
                 # extend the end of the array to match with new last row
                 # with the repeated value at the end of the original array
+                # print([self.sumA[-1]] * (cell.row - self.rowNum() + 1))
                 self.sumA.extend([self.sumA[-1]] * (cell.row - self.rowNum() + 1))
             
             
@@ -84,8 +86,9 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 self.colA.insert(sum_index, cell.col)
                 self.valA.insert(sum_index, cell.val)
             
-            
+            print("AFTER:")
             self.print_summary()
+            print()
  
                 
 
@@ -131,7 +134,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if rowIndex < -1 or rowIndex > self.rowNum():
             return False
         else:
-            self.sumA.insert(rowIndex + 2, self.sumA[rowIndex + 1])
+            self.sumA.insert(rowIndex + 1, self.sumA[rowIndex])
             return True
             
 
@@ -173,7 +176,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if rowIndex < -1 or rowIndex > self.rowNum() or colIndex < -1 or colIndex > self.columns:
             return False
         else:
-            # print("UPDATE: (", rowIndex, colIndex, value, ")")
+            print("UPDATE: (", rowIndex, colIndex, value, ") while rows is", self.rowNum(), "and columns is", self.colNum())
             # self.print_summary()
 
             # update sum
