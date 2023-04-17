@@ -265,12 +265,12 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
                 diff = val.row - maxRows
                 for i in range(diff+1):
                     self.spread.append(Node(DoubleLinkedList()),True)
-                maxRows = val.row
+                maxRows = self.spread.len
             if val.col > maxCols:
                 diff = val.col - maxCols
                 for i in range(diff):
                     self.appendCol()
-                maxCols = val.col
+                maxCols = self.spread.head.value.len
             if val.row <= maxRows and val.row >= 0:
                 if val.col <= maxCols and val.col >= 0:
                     self.update(val.row,val.col,val.val) 
@@ -291,7 +291,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
             #print(val)
             self.update(val.row,val.col,val.val)
             
-            #print(x)"""
+            #print(x)"""""
         
         #self.spread.printLL()
         #print("sheet built")

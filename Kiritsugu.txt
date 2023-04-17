@@ -1,17 +1,16 @@
-Number of rows = 101
-Number of columns = 101
+Number of rows = 12
+Number of columns = 11
 Call to appendRow() returned success.
 Call to appendCol() returned success.
-Printing output of find(7.12): (10,1)
-Printing output of find(-7.77): (2,4)
-Printing output of find(-0.14): (5,1)
-Number of rows = 102
-Number of columns = 102
-Call to update(10,1,7.12) returned success.
-Call to update(2,4,-7.77) returned success.
-Printing output of entries(): (2,4,-7.77) | (5,1,-0.14) | (10,1,7.12) | (100,100,1.00)
-Call to insertRow(0) returned success.
-Call to insertCol(2) returned success.
-Number of rows = 103
-Number of columns = 103
-Printing output of entries(): (3,5,-7.77) | (6,1,-0.14) | (11,1,7.12) | (101,101,1.00)
+Printing output of find(-2.43): (9,1)
+Printing output of find(2.57): (0,5)
+Printing output of find(6.4): (3,1)
+Number of rows = 13
+Number of columns = 12
+Call to update(0,5,2.57) returned success.
+Printing output of entries(): (0,5,2.57) | (3,1,6.40) | (9,1,-2.43) | (10,10,1.00)
+Call to insertRow(7) returned success.
+Call to insertCol(8) returned success.
+Number of rows = 14
+Number of columns = 13
+Printing output of entries(): (0,5,2.57) | (3,1,6.40) | (10,1,-2.43) | (11,11,1.00)
