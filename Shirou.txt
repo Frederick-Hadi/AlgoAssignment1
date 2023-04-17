@@ -1,9 +1,1 @@
-Number of rows = 6
-Number of columns = 6
-Printing output of find(-17.61): (2,1)
-Number of rows = 6
-Number of columns = 6
-Printing output of entries(): (2,1,-17.61) | (5,5,1.00)
-Number of rows = 6
-Number of columns = 6
-Printing output of entries(): (2,1,-17.61) | (5,5,1.00)
+Printing output of entries(): (3,5,2.52) | (5,5,1.00)

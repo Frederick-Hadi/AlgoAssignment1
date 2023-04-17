@@ -1,8 +1,97 @@
-___________________________________________________________
-Iteration 0: Elapsed time: 0.20033620000000002 seconds
-Iteration 1: Elapsed time: 0.1960484 seconds
-Iteration 2: Elapsed time: 0.1980804 seconds
-Iteration 3: Elapsed time: 0.20354550000000005 seconds
-Iteration 4: Elapsed time: 0.1983318999999999 seconds
-Iteration 5: Elapsed time: 0.1970194999999999 seconds
-___________________________________________________________
+Time for csr:
+Time: 0.2167118. This was for R
+
+Time: 0.19111370000000005. This was for C
+
+Time: 0.19053790000000004. This was for AR
+
+Time: 0.19610439999999996. This was for AC
+
+Time: 0.19764080000000006. This was for F
+Time: 0.19944209999999996. This was for U
+Time: 0.19719320000000007. This was for IR
+Time: 0.1954461999999999. This was for IC
+Time: 0.1939432000000001. This was for E
+
+Time: ________________________________________________________________. This was for R
+
+Time: 0.20386650000000017. This was for R
+
+Time: 0.19441979999999992. This was for C
+
+Time: 0.1914355000000003. This was for AR
+
+Time: 0.2115377999999999. This was for AC
+
+Time: 0.22174260000000023. This was for F
+Time: 0.19935530000000012. This was for U
+Time: 0.19966509999999982. This was for IR
+Time: 0.19433429999999996. This was for IC
+Time: 0.20571169999999972. This was for E
+
+Time: ________________________________________________________________. This was for R
+
+Time: 0.2010019999999999. This was for R
+
+Time: 0.1925655000000006. This was for C
+
+Time: 0.2023009999999994. This was for AR
+
+Time: 0.20073790000000002. This was for AC
+
+Time: 0.20047960000000042. This was for F
+Time: 0.20018379999999958. This was for U
+Time: 0.19742060000000006. This was for IR
+Time: 0.19902560000000058. This was for IC
+Time: 0.1973553999999993. This was for E
+
+Time: ________________________________________________________________. This was for R
+
+Time: 0.1997176999999999. This was for R
+
+Time: 0.20049899999999976. This was for C
+
+Time: 0.19692239999999916. This was for AR
+
+Time: 0.1950788999999995. This was for AC
+
+Time: 0.19812969999999996. This was for F
+Time: 0.19696219999999975. This was for U
+Time: 0.19540000000000024. This was for IR
+Time: 0.19328940000000028. This was for IC
+Time: 0.19244929999999982. This was for E
+
+Time: ________________________________________________________________. This was for R
+
+Time: 0.1996329000000001. This was for R
+
+Time: 0.19296730000000029. This was for C
+
+Time: 0.1968437999999999. This was for AR
+
+Time: 0.19548379999999987. This was for AC
+
+Time: 0.19919209999999943. This was for F
+Time: 0.19564290000000106. This was for U
+Time: 0.1929401999999989. This was for IR
+Time: 0.1956118999999994. This was for IC
+Time: 0.19111529999999988. This was for E
+
+Time: ________________________________________________________________. This was for R
+
+Time: 0.20921910000000032. This was for R
+
+Time: 0.2010752999999994. This was for C
+
+Time: 0.2022864999999996. This was for AR
+
+Time: 0.19737739999999881. This was for AC
+
+Time: 0.1998016000000007. This was for F
+Time: 0.20694940000000095. This was for U
+Time: 0.20268140000000123. This was for IR
+Time: 0.2011282000000012. This was for IC
+Time: 0.20218309999999917. This was for E
+
+Time: ________________________________________________________________. This was for R
+

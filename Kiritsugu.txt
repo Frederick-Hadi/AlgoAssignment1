@@ -1,16 +1,1 @@
-Number of rows = 12
-Number of columns = 11
-Call to appendRow() returned success.
-Call to appendCol() returned success.
-Printing output of find(-2.43): (9,1)
-Printing output of find(2.57): (0,5)
-Printing output of find(6.4): (3,1)
-Number of rows = 13
-Number of columns = 12
-Call to update(0,5,2.57) returned success.
-Printing output of entries(): (0,5,2.57) | (3,1,6.40) | (9,1,-2.43) | (10,10,1.00)
-Call to insertRow(7) returned success.
-Call to insertCol(8) returned success.
-Number of rows = 14
-Number of columns = 13
-Printing output of entries(): (0,5,2.57) | (3,1,6.40) | (10,1,-2.43) | (11,11,1.00)
+Printing output of entries(): (0,3,-3.54) | (2,1,16.23) | (3,1,5.73) | (10,10,1.00)

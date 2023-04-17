@@ -4,7 +4,6 @@ import time
 # python3 spreadsheetFilebased.py linkedlist tasty commands.in DataGen.txt
 def write_txt_file(filename, r,c, u_range):
     
-   
     with open(filename, 'w') as f:
         tmax = 0
         uMax = 0
@@ -83,21 +82,12 @@ def command(fileName, rows,cols,vals):
         f.close()
 
 #i think we are meant to test features one at a time and see the effect it has on performance one at a time.
-def command1():
-    with open("commands.in", 'w') as f:
-        f.write(f"R\n")
-        f.write(f"C\n")
-        f.write(f"AR\n")
-        f.write(f"AC\n")
-        f.write(f"F 5\n")
-        f.write(f"U 2 2 5\n")
-        f.write(f"IR 2\n")
-        f.write(f"IC 2\n")
-        f.write(f"E\n")
-        f.close()
 
 #TODO change sizes?
 #databaseSizes = [(5,8),(10,7),(50,70),(100,50),(500,70),(1000,1000)]
+
+listOfCommands = ["R\n", "C\n", "AR\n", "AC\n", "F", "U", "IR", "IC", "E\n"]
+
 databaseSizes = [5,10,50,100,250,500]
 
 #holds the randomly generated databases
@@ -112,20 +102,47 @@ databaseTypes = ["csr", "linkedlist", "array"]
 #holds the times in the order of databaseTypes
 overall = ["enuma","excalibur","gae"]
 
+def single(databaseT,databaseN,resultN,vals,size):
+    #ugly
+    timeList = []
+    for command in listOfCommands:
+        with open("commands.in", "w") as f:
+            #yucky
+            if command not in ("F", "U", "IR", "IC"):
+                f.write(command)
+            if command == "F":
+                f.write(f"{command} {vals[random.randint(0,len(vals)-1)][2]}\n")
+            if command == "U":
+                f.write(f"{command} {vals[random.randint(0,len(vals)-1)][0]} {vals[random.randint(0,len(vals)-1)][1]} {vals[random.randint(0,len(vals)-1)][2]}\n")
+            if command == "IR":
+                f.write(f"{command} {random.randint(0,size)}\n")
+            if command == "IC":
+                f.write(f"{command} {random.randint(0,size)}\n")                
+            
+        f.close()
+        start_time = time.perf_counter()
+        os.system("python spreadsheetFilebased.py " + databaseT + " " + databaseN + " commands.in " + resultN + ".txt")
+        end_time = time.perf_counter()
+        elapsed_time = end_time - start_time
+        timeList.append(elapsed_time)
+    timeList.append("________________________________________________________________")
+    print(timeList)
+    return timeList
+
+
+def writeTime(timeList,fileName, listOfCommands): 
+    with open(fileName, "a") as f:
+        for x in range(len(timeList)):
+            i = x%len(listOfCommands)
+            f.write(f"Time: {timeList[x]}. This was for {listOfCommands[i]}\n")
+    pass
 
              
 for i in range (3):
-    with open(overall[i], "w") as f:
-        f.write(f"___________________________________________________________\n")
+        with open(overall[i], "w") as f:
+            f.write(f"Time for {databaseTypes[i]}:\n")
+        f.close()
         for x in range(6):
             #r,c,v = write_txt_file(databaseNames[x], databaseSizes[x][0], databaseSizes[x][1],(-20, 20))
             r,c,v = write_txt_file(databaseNames[x], databaseSizes[x], databaseSizes[x],(-20, 20))
-            command("commands.in", r,c,v)
-            start_time = time.perf_counter()
-            os.system("python spreadsheetFilebased.py " + databaseTypes[i] + " " + databaseNames[x] + " commands.in " + resultNames[x] + ".txt")
-            end_time = time.perf_counter()
-            elapsed_time = end_time - start_time
-            f.write(f"Iteration {x}: Elapsed time: {elapsed_time} seconds\n")
-        f.write(f"___________________________________________________________\n")
-        print("done with " + databaseTypes[i])
-        f.close()
+            writeTime(single(databaseTypes[i],databaseNames[x],resultNames[x],v,databaseSizes[x]),overall[i],listOfCommands)
