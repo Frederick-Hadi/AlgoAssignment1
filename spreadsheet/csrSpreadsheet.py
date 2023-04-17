@@ -41,7 +41,8 @@ class CSRSpreadsheet(BaseSpreadsheet):
         for cell in lCells:
             
             print("Attempting adding (", cell.row, cell.col, cell.val, ") while rows is", self.rowNum(), "and columns is", self.colNum())
-            self.print_summary()
+            print(self.sumA)
+            # self.print_summary()
             # --------------
             # UPDATING sumA
             # --------------
@@ -54,6 +55,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
             
             # update sum
             # self.sumA[-1] += cell.val
+            
             for i in range(cell.row + 1, len(self.sumA)):
                 self.sumA[i] += cell.val
             # print(self.sumA)
@@ -70,25 +72,49 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 self.valA.append(cell.val)
             else:
                 curr_sum = 0
-                sum_index = 0
-                # keep summing the values in valA until we find a place where
-                # the current cell value matches the expected values in sumA
-                # print("WHILE START:", len(self.sumA), cell.row)
+                val_index = 0
                 
+                
+
+                # val_index is the index of the last val in the row that contains the updated cell
+                # but one extra
+                # print(len(self.sumA), rowIndex + 1)
+                # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
                 while math.isclose(self.sumA[cell.row + 1] - curr_sum, cell.val) == False:
-                    # print(len(self.valA), sum_index)
-                    curr_sum += self.valA[sum_index]
-                    sum_index += 1
-                    # print(self.sumA[cell.row] - curr_sum, "=", cell.val, "IS", math.isclose(self.sumA[cell.row] - curr_sum, cell.val))
-                # print()
-                # print("-------------------------")
-                # print()
-                self.colA.insert(sum_index, cell.col)
-                self.valA.insert(sum_index, cell.val)
+                    curr_sum += self.valA[val_index]
+                    val_index += 1
+                    # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
+                
+                
+                
+                # prev_row_index is the index of the first value of the updated row
+                prev_val_index = 0
+                curr_sum = 0
+                while math.isclose(curr_sum, self.sumA[cell.row]) == False:
+                    # first get the last val of the previous row
+                    curr_sum += self.valA[prev_val_index]
+                    prev_val_index += 1
+
+
+                # print(prev_val_index)
+                # print(val_index)
+                for index_to_insert in range(prev_val_index, val_index):
+                    if cell.col < self.colA[index_to_insert]:
+                        # if not equal but is less than, that means an empty cell
+                        # is being updated
+                        self.colA.insert(index_to_insert, cell.col)
+                        self.valA.insert(index_to_insert, cell.val)
+                        break
+                else:
+                    # reached the end of the row, meaning this is a previously null cell
+                    # and is also the latest column that has a value, so insert appropriately.
+                    # val_index has this
+                    self.colA.insert(val_index, cell.col)
+                    self.valA.insert(val_index, cell.val)
             
-            print("AFTER:")
-            self.print_summary()
-            print()
+            # print("AFTER:")
+            # self.print_summary()
+            # print()
  
                 
 
@@ -176,7 +202,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if rowIndex < -1 or rowIndex > self.rowNum() or colIndex < -1 or colIndex > self.columns:
             return False
         else:
-            print("UPDATE: (", rowIndex, colIndex, value, ") while rows is", self.rowNum(), "and columns is", self.colNum())
+            # print("UPDATE: (", rowIndex, colIndex, value, ") while rows is", self.rowNum(), "and columns is", self.colNum())
             # self.print_summary()
 
             # update sum
