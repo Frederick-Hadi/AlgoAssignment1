@@ -31,7 +31,7 @@ def write_txt_file(filename, r,c, u_range):
             values.append((t,y,u))
             f.write(f"{t}\t{y}\t{u}\n")
         #to know where the values are located
-        print(f"Rows Max: {tmax}, Col Max: {uMax}, Max Val: {valMax}")
+        #print(f"Rows Max: {tmax}, Col Max: {uMax}, Max Val: {valMax}")
         f.write(f"{maxRows}\t{maxCols}\t1\n")
     f.close()
     return maxRows, maxCols, values
@@ -126,7 +126,7 @@ def single(databaseT,databaseN,resultN,vals,size):
         elapsed_time = end_time - start_time
         timeList.append(elapsed_time)
     timeList.append("________________________________________________________________")
-    print(timeList)
+    #print(timeList)
     return timeList
 
 
@@ -134,7 +134,10 @@ def writeTime(timeList,fileName, listOfCommands):
     with open(fileName, "a") as f:
         for x in range(len(timeList)):
             i = x%len(listOfCommands)
-            f.write(f"Time: {timeList[x]}. This was for {listOfCommands[i]}\n")
+            if i != 0:
+                f.write(f"Time: {timeList[x]}. This was for {listOfCommands[i]}\n")
+            else:
+                f.write(f"Time: {timeList[x]}\n")
     pass
 
              
