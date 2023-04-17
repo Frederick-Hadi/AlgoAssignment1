@@ -40,9 +40,9 @@ class CSRSpreadsheet(BaseSpreadsheet):
         # self.print_summary()
         for cell in lCells:
             
-            print("Attempting adding (", cell.row, cell.col, cell.val, ") while rows is", self.rowNum(), "and columns is", self.colNum())
-            print(self.sumA)
+            # print("Attempting adding (", cell.row, cell.col, cell.val, ") while rows is", self.rowNum(), "and columns is", self.colNum())
             # self.print_summary()
+
             # --------------
             # UPDATING sumA
             # --------------
@@ -55,7 +55,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
             
             # update sum
             # self.sumA[-1] += cell.val
-            
+            old_sum_val = self.sumA[cell.row + 1]
             for i in range(cell.row + 1, len(self.sumA)):
                 self.sumA[i] += cell.val
             # print(self.sumA)
@@ -80,10 +80,20 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 # but one extra
                 # print(len(self.sumA), rowIndex + 1)
                 # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
+                # while math.isclose(self.sumA[cell.row + 1] - curr_sum, cell.val) == False:
+                #     curr_sum += self.valA[val_index]
+                #     val_index += 1
+                    # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
+
+
+                # print()
+                # print("----------------------------------------------------------")
+                # while math.isclose(old_sum_val, curr_sum) == False:
                 while math.isclose(self.sumA[cell.row + 1] - curr_sum, cell.val) == False:
                     curr_sum += self.valA[val_index]
                     val_index += 1
-                    # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
+                    # print(len( self.valA), "trying to access", val_index)
+                    # print(old_sum_val, "must equal", curr_sum, cell.row)
                 
                 
                 

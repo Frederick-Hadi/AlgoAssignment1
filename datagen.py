@@ -26,7 +26,7 @@ def write_txt_file(filename, r,c, u_range):
             y = round(random.randint(colRange[0], colRange[1]), 2)
             if y > uMax:
                 uMax = y
-            u = round(random.uniform(u_range[0], u_range[1]), 2)
+            u = round(random.uniform(u_range[0], u_range[1]), 3)
             if u > valMax:
                 valMax = u
             values.append((t,y,u))
@@ -122,7 +122,7 @@ for i in range (3):
             r,c,v = write_txt_file(databaseNames[x], databaseSizes[x], databaseSizes[x],(-20, 20))
             command("commands.in", r,c,v)
             start_time = time.perf_counter()
-            os.system("python3 spreadsheetFilebased.py " + databaseTypes[i] + " " + databaseNames[x] + " commands.in " + resultNames[x] + ".txt")
+            os.system("python spreadsheetFilebased.py " + databaseTypes[i] + " " + databaseNames[x] + " commands.in " + resultNames[x] + ".txt")
             end_time = time.perf_counter()
             elapsed_time = end_time - start_time
             f.write(f"Iteration {x}: Elapsed time: {elapsed_time} seconds\n")
