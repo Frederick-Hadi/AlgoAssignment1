@@ -20,7 +20,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         self.colA = []
         self.valA = []
         self.sumA = [0]
-
+        self.built = False
         # keep track of max column index
         self.columns = 0
 
@@ -130,7 +130,8 @@ class CSRSpreadsheet(BaseSpreadsheet):
         timeTaken = end - start
         with open("enuma.txt", "a") as f:
             f.write("For creating a CSR: " +str(timeTaken) + " of size " + str(self.rowNum()) + "x" + str(self.colNum())+"\n")
-        f.close()          
+        f.close()
+        self.built = True          
 
         
 
@@ -146,9 +147,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
             self.sumA.append(self.sumA[-1])
             end = time.perf_counter()
             timeTaken = end - start
-            with open("enuma.txt", "a") as f:
-                f.write("For appending row: " +str(timeTaken)+"\n")
-            f.close()
+            if self.built:
+                with open("enuma.txt", "a") as f:
+                    f.write("For appending row: " +str(timeTaken)+"\n")
+                f.close()
             return True
         else:
             return False
@@ -165,9 +167,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
             self.columns += 1
             end = time.perf_counter()
             timeTaken = end - start
-            with open("enuma.txt", "a") as f:
-                f.write("For appending col: " +str(timeTaken)+"\n")
-            f.close()
+            if self.built:
+                with open("enuma.txt", "a") as f:
+                    f.write("For appending col: " +str(timeTaken)+"\n")
+                f.close()
             return True
         else:
             return False
@@ -189,9 +192,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
             self.sumA.insert(rowIndex + 1, self.sumA[rowIndex])
             end = time.perf_counter()
             timeTaken = end - start
-            with open("enuma.txt", "a") as f:
-                f.write("For insert row: " +str(timeTaken)+"\n")
-            f.close()
+            if self.built:
+                with open("enuma.txt", "a") as f:
+                    f.write("For insert row: " +str(timeTaken)+"\n")
+                f.close()
             return True
             
 
@@ -218,9 +222,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
                     self.colA[i] += 1
             end = time.perf_counter()
             timeTaken = end - start
-            with open("enuma.txt", "a") as f:
-                f.write("For insert col: " +str(timeTaken)+"\n")
-            f.close()
+            if self.built:
+                with open("enuma.txt", "a") as f:
+                    f.write("For insert col: " +str(timeTaken)+"\n")
+                f.close()
             return True
 
 
@@ -301,9 +306,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 self.valA.insert(val_index, value)
             end = time.perf_counter()
             timeTaken = end - start
-            with open("enuma.txt", "a") as f:
-                f.write("For update: " +str(timeTaken)+"\n")
-            f.close()
+            if self.built:
+                with open("enuma.txt", "a") as f:
+                    f.write("For update: " +str(timeTaken)+"\n")
+                f.close()
             # print("AFTER:")
             # self.print_summary()
             
@@ -335,9 +341,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
         start = time.perf_counter()
         end = time.perf_counter()
         timeTaken = end - start
-        with open("enuma.txt", "a") as f:
-            f.write("For rowNum: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("enuma.txt", "a") as f:
+                f.write("For rowNum: " +str(timeTaken)+"\n")
+            f.close()
         return len(self.sumA) - 1
 
 
@@ -348,9 +355,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
         start = time.perf_counter()
         end = time.perf_counter()
         timeTaken = end - start
-        with open("enuma.txt", "a") as f:
-            f.write("For colNum: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("enuma.txt", "a") as f:
+                f.write("For colNum: " +str(timeTaken)+"\n")
+            f.close()
         return self.columns + 1
 
 
@@ -389,9 +397,10 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 check_change = self.sumA[row_index]
         end = time.perf_counter()
         timeTaken = end - start
-        with open("enuma.txt", "a") as f:
-            f.write("For find: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("enuma.txt", "a") as f:
+                f.write("For find: " +str(timeTaken)+"\n")
+            f.close()
         return matches
 
 
@@ -432,7 +441,8 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 check_change = self.sumA[row_index]
         end = time.perf_counter()
         timeTaken = end - start
-        with open("enuma.txt", "a") as f:
-            f.write("For entries: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("enuma.txt", "a") as f:
+                f.write("For entries: " +str(timeTaken)+"\n")
+            f.close()
         return NZVs

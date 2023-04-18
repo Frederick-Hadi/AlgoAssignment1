@@ -246,6 +246,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
     def __init__(self):
         # TO BE IMPLEMENTED
         self.spread = DoubleLinkedList()
+        self.built = False
         
 
 
@@ -298,6 +299,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #print("sheet built")
         end = time.perf_counter()
         timeTaken = end - start
+        self.built = True
         with open("excalibur.txt", "a") as f:
             f.write("For creating a LL: " +str(timeTaken) + " of size " + str(maxRows) + "x" + str(maxCols)+"\n")
         f.close()
@@ -314,9 +316,10 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #self.spread.printLL()
         end = time.perf_counter()
         timeTaken = end - start
-        with open("excalibur.txt", "a") as f:
-            f.write("For appending row: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("excalibur.txt", "a") as f:
+                f.write("For appending row: " +str(timeTaken)+"\n")
+            f.close()
         return True
         # TO BE IMPLEMENTED
         
@@ -340,9 +343,10 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #self.spread.printLL()
         end = time.perf_counter()
         timeTaken = end - start
-        with open("excalibur.txt", "a") as f:
-            f.write("For appending col: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("excalibur.txt", "a") as f:
+                f.write("For appending col: " +str(timeTaken)+"\n")
+            f.close()
         return True
 
 
@@ -448,9 +452,10 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #self.spread.printLL()
         end = time.perf_counter()
         timeTaken = end - start
-        with open("excalibur.txt", "a") as f:
-            f.write("For update: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("excalibur.txt", "a") as f:
+                f.write("For update: " +str(timeTaken)+"\n")
+            f.close()
         return True
 
 

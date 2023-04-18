@@ -16,6 +16,7 @@ class ArraySpreadsheet(BaseSpreadsheet):
         # TO BE IMPLEMENTED
         self.spreadsheet = [[None]]
         self.rows = 0
+        self.built = False
         self.columns = 0
         pass
 
@@ -52,6 +53,7 @@ class ArraySpreadsheet(BaseSpreadsheet):
         with open("gae.txt", "a") as f:
             f.write("For creating a array: " +str(timeTaken) + " of size " + str(self.rowNum()) + "x" + str(self.colNum())+"\n")
         f.close()
+        self.built = True
 
 
     def appendRow(self)->bool:
@@ -182,9 +184,10 @@ class ArraySpreadsheet(BaseSpreadsheet):
         # Add 1 because indexing starts at 0
         end = time.perf_counter()
         timeTaken = end - start
-        with open("gae.txt", "a") as f:
-            f.write("For rowNum: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("gae.txt", "a") as f:
+                f.write("For rowNum: " +str(timeTaken)+"\n")
+            f.close()
         return len(self.spreadsheet)
 
 
@@ -195,9 +198,10 @@ class ArraySpreadsheet(BaseSpreadsheet):
         start = time.perf_counter()
         end = time.perf_counter()
         timeTaken = end - start
-        with open("gae.txt", "a") as f:
-            f.write("For colNum: " +str(timeTaken)+"\n")
-        f.close()
+        if self.built:
+            with open("gae.txt", "a") as f:
+                f.write("For colNum: " +str(timeTaken)+"\n")
+            f.close()
         return self.columns + 1
 
 

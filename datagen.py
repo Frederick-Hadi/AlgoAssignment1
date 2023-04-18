@@ -25,7 +25,7 @@ def write_txt_file(filename, r,c, u_range):
             y = round(random.randint(colRange[0], colRange[1]), 2)
             if y > uMax:
                 uMax = y
-            u = round(random.uniform(u_range[0], u_range[1]), 3)
+            u = round(random.uniform(u_range[0], u_range[1])*10, 3)
             if u > valMax:
                 valMax = u
             values.append((t,y,u))
@@ -78,11 +78,15 @@ overall = ["enuma.txt","excalibur.txt","gae.txt"]
 for i in range (3):
         with open(overall[i], "w") as f:
             f.write(f"Time for {databaseTypes[i]}:\n")
+            f.write("_______________________________________________________________\n")
             f.close()
         for x in range(6):
             #r,c,v = write_txt_file(databaseNames[x], databaseSizes[x][0], databaseSizes[x][1],(-20, 20))
             r,c,v = write_txt_file(databaseNames[x], databaseSizes[x], databaseSizes[x],(-20, 20))
             command1("commands.in", r,c,v,databaseSizes[x])
             os.system("python3 spreadsheetFilebased.py " + databaseTypes[i] + " " + databaseNames[x] + " commands.in " + resultNames[x] + ".txt")
+            with open(overall[i], "a") as f:
+                f.write(f"_____________________________________________________________________________\n")
+                f.close()
         print("done with " + databaseTypes[i])
 
