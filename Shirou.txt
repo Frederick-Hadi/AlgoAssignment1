@@ -1,1 +1,9 @@
-Printing output of entries(): (5,1,-13.52) | (5,5,1.00)
+Number of rows = 6
+Number of columns = 6
+Call to appendRow() returned success.
+Call to appendCol() returned success.
+Printing output of find(-3.598): (4,0)
+Call to update(4,2,-3.598) returned success.
+Call to insertRow(1) returned success.
+Call to insertCol(0) returned success.
+Printing output of entries(): (0,3,-19.70) | (1,0,-3.76) | (3,4,0.48) | (5,0,-3.60) | (5,3,-3.60) | (5,4,-5.43) | (6,4,-9.67) | (6,6,1.00)

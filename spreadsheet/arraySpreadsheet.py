@@ -1,6 +1,6 @@
 from spreadsheet.cell import Cell
 from spreadsheet.baseSpreadsheet import BaseSpreadsheet
-
+import time
 
 # ------------------------------------------------------------------------
 # This class is required TO BE IMPLEMENTED
@@ -25,6 +25,7 @@ class ArraySpreadsheet(BaseSpreadsheet):
         Construct the data structure to store nodes.
         @param lCells: list of cells to be stored
         """
+        start = time.perf_counter()
         for cell in lCells:
             # extend number of rows
             if self.rows < cell.row:
@@ -46,6 +47,11 @@ class ArraySpreadsheet(BaseSpreadsheet):
             #     print(len(thing))
             # print(len(self.spreadsheet[cell.row]))
             self.spreadsheet[cell.row][cell.col] = cell.val
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("gae.txt", "a") as f:
+            f.write("For creating a array: " +str(timeTaken) + " of size " + str(self.rowNum()) + "x" + str(self.colNum())+"\n")
+        f.close()
 
 
     def appendRow(self)->bool:
@@ -54,12 +60,22 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
-        
+        start = time.perf_counter()
         if self.spreadsheet == None:
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For appending row" +str(timeTaken))
+            f.close()
             return False
         else:
             self.rows += 1
             self.spreadsheet.append([None] * (self.rows + 1))
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For appending row: " +str(timeTaken)+"\n")
+            f.close()
             return True
 
 
@@ -69,12 +85,23 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
+        start = time.perf_counter()
         if self.spreadsheet == None:
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For appending col" +str(timeTaken))
+            f.close()
             return False
         else:
             self.columns += 1
             for row in self.spreadsheet:
                 row.extend([None])
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For appending col: " +str(timeTaken)+"\n")
+            f.close()
             return True
 
 
@@ -86,13 +113,18 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not, e.g., rowIndex is invalid.
         """
-
+        start = time.perf_counter()
         if rowIndex < -1 or rowIndex >= self.rowNum():
             return False
         else:
             # IR 0 will insert a row AFTER row 0
             self.spreadsheet.insert(rowIndex + 1, [None] * self.columns)
             self.rows += 1
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For insert row: " +str(timeTaken)+"\n")
+            f.close()
             return True
 
 
@@ -104,13 +136,18 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         return True if operation was successful, or False if not, e.g., colIndex is invalid.
         """
-        
+        start = time.perf_counter()
         if colIndex < -1 or colIndex >= self.colNum():
             return False
         else:
             for row in self.spreadsheet:
                 row.insert(colIndex + 1, None)
             self.columns += 1
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For insert col: " +str(timeTaken)+"\n")
+            f.close()
             return True
 
 
@@ -124,11 +161,16 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return True if cell can be updated.  False if cannot, e.g., row or column indices do not exist.
         """
-
+        start = time.perf_counter()
         if rowIndex < -1 or rowIndex >= self.rowNum() or colIndex < -1 or colIndex >= self.colNum():
             return False
         else:
             self.spreadsheet[rowIndex][colIndex] = value
+            end = time.perf_counter()
+            timeTaken = end - start
+            with open("gae.txt", "a") as f:
+                f.write("For update: " +str(timeTaken)+"\n")
+            f.close()
             return True
 
 
@@ -136,9 +178,13 @@ class ArraySpreadsheet(BaseSpreadsheet):
         """
         @return Number of rows the spreadsheet has.
         """
-
+        start = time.perf_counter()
         # Add 1 because indexing starts at 0
-        # return self.rows + 1
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("gae.txt", "a") as f:
+            f.write("For rowNum: " +str(timeTaken)+"\n")
+        f.close()
         return len(self.spreadsheet)
 
 
@@ -146,8 +192,12 @@ class ArraySpreadsheet(BaseSpreadsheet):
         """
         @return Number of column the spreadsheet has.
         """
-
-        # Add 1 because indexing starts at 0
+        start = time.perf_counter()
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("gae.txt", "a") as f:
+            f.write("For colNum: " +str(timeTaken)+"\n")
+        f.close()
         return self.columns + 1
 
 
@@ -160,6 +210,7 @@ class ArraySpreadsheet(BaseSpreadsheet):
 
         @return List of cells (row, col) that contains the input value.
 	    """
+        start = time.perf_counter()
         matches = []
         curr_row = 0
         
@@ -172,13 +223,18 @@ class ArraySpreadsheet(BaseSpreadsheet):
             curr_row += 1
 
         # REPLACE WITH APPROPRIATE RETURN VALUE
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("gae.txt", "a") as f:
+            f.write("For find: " +str(timeTaken)+"\n")
+        f.close()
         return matches
 
     def entries(self) -> [Cell]:
         """
         @return A list of cells that have values (i.e., all non None cells).
         """
-
+        start = time.perf_counter()
         matches = []
         curr_row = 0
         
@@ -189,5 +245,9 @@ class ArraySpreadsheet(BaseSpreadsheet):
                     matches.append(Cell(curr_row, curr_col, val))
                 curr_col += 1
             curr_row += 1
-
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("gae.txt", "a") as f:
+            f.write("For entries: " +str(timeTaken)+"\n")
+        f.close()
         return matches

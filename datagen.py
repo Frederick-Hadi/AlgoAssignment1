@@ -13,8 +13,8 @@ def write_txt_file(filename, r,c, u_range):
         maxCols = c
         rowRange = (0,maxRows)
         colRange = (0,maxCols)
-
-        x = sparsity(r)
+        # 0.3 would be percentage
+        x = sparsity(r*c,0.3)
         values = []
 
         #generating random values in random rows and cols
@@ -37,52 +37,25 @@ def write_txt_file(filename, r,c, u_range):
     return maxRows, maxCols, values
 
 # sparsity is the percentage of values we will fill for the spreadsheet.
-def sparsity(x):
-    return int(0.3*x)
+def sparsity(x,y):
+    return int(y*x)
 
-def command(fileName, rows,cols,vals):
-    #print("Rows: {rows}, Cols: {cols}")
-    #print(vals)
-    with open(fileName,'w') as f:
-        f.write(f"R\n")
-        f.write(f"C\n")
-        #appending 10% of the rows and cols
-        for x in range(int(rows*0.1)):
-            f.write(f"AR\n")
-        for x in range(int(cols*0.1)):
-            f.write(f"AC\n")
-        
-        #finding values located in rows
-        for x in vals:
-            #print(x[2])
-            f.write(f"F {x[2]}\n")
-        
-        f.write(f"R\n")
-        f.write(f"C\n")
-
-        #updating values in random places
-        up = vals[random.randint(0,len(vals)-1): len(vals)-1]
-        for x in up:
-            f.write(f"U {x[0]} {x[1]} {x[2]}\n")
-        f.write(f"E\n")
-
-        #Inserting rows/columns at random points
-        for x in range(int(rows*0.1)):
-            OMG = random.randint(0,rows-1)
-            f.write(f"IR {OMG}\n")
-        for x in range(int(cols*0.1)):
-            OMG = random.randint(0,cols-1)
-            f.write(f"IC {OMG}\n")
-        
-        #printing the values in the rows and columns
-        f.write(f"R\n")
-        f.write(f"C\n")
-        #printing non empty values
-        f.write(f"E\n")
+def command1(fileName, rows,cols,vals,size):
+    
+    with open("commands.in", "w") as f:
+            #yucky
+        for command in listOfCommands:
+            if command not in ("F", "U", "IR", "IC"):
+                f.write(command)
+            if command == "F":
+                f.write(f"{command} {vals[random.randint(0,len(vals)-1)][2]}\n")
+            if command == "U":
+                f.write(f"{command} {vals[random.randint(0,len(vals)-1)][0]} {vals[random.randint(0,len(vals)-1)][1]} {vals[random.randint(0,len(vals)-1)][2]}\n")
+            if command == "IR":
+                f.write(f"{command} {random.randint(0,size)}\n")
+            if command == "IC":
+                f.write(f"{command} {random.randint(0,size)}\n") 
         f.close()
-
-#i think we are meant to test features one at a time and see the effect it has on performance one at a time.
-
 #TODO change sizes?
 #databaseSizes = [(5,8),(10,7),(50,70),(100,50),(500,70),(1000,1000)]
 
@@ -100,52 +73,16 @@ resultNames = ["Shirou","Kiritsugu","Rin","Sakura","Kirei","Illya"]
 databaseTypes = ["csr", "linkedlist", "array"]
 
 #holds the times in the order of databaseTypes
-overall = ["enuma","excalibur","gae"]
+overall = ["enuma.txt","excalibur.txt","gae.txt"]
 
-def single(databaseT,databaseN,resultN,vals,size):
-    #ugly
-    timeList = []
-    for command in listOfCommands:
-        with open("commands.in", "w") as f:
-            #yucky
-            if command not in ("F", "U", "IR", "IC"):
-                f.write(command)
-            if command == "F":
-                f.write(f"{command} {vals[random.randint(0,len(vals)-1)][2]}\n")
-            if command == "U":
-                f.write(f"{command} {vals[random.randint(0,len(vals)-1)][0]} {vals[random.randint(0,len(vals)-1)][1]} {vals[random.randint(0,len(vals)-1)][2]}\n")
-            if command == "IR":
-                f.write(f"{command} {random.randint(0,size)}\n")
-            if command == "IC":
-                f.write(f"{command} {random.randint(0,size)}\n")                
-            
-        f.close()
-        start_time = time.perf_counter()
-        os.system("python spreadsheetFilebased.py " + databaseT + " " + databaseN + " commands.in " + resultN + ".txt")
-        end_time = time.perf_counter()
-        elapsed_time = end_time - start_time
-        timeList.append(elapsed_time)
-    timeList.append("________________________________________________________________")
-    #print(timeList)
-    return timeList
-
-
-def writeTime(timeList,fileName, listOfCommands): 
-    with open(fileName, "a") as f:
-        for x in range(len(timeList)):
-            i = x%len(listOfCommands)
-            if i != 0:
-                f.write(f"Time: {timeList[x]}. This was for {listOfCommands[i]}\n")
-            else:
-                f.write(f"Time: {timeList[x]}\n")
-    pass
-
-             
 for i in range (3):
         with open(overall[i], "w") as f:
             f.write(f"Time for {databaseTypes[i]}:\n")
-        f.close()
+            f.close()
         for x in range(6):
             #r,c,v = write_txt_file(databaseNames[x], databaseSizes[x][0], databaseSizes[x][1],(-20, 20))
             r,c,v = write_txt_file(databaseNames[x], databaseSizes[x], databaseSizes[x],(-20, 20))
-            writeTime(single(databaseTypes[i],databaseNames[x],resultNames[x],v,databaseSizes[x]),overall[i],listOfCommands)
+            command1("commands.in", r,c,v,databaseSizes[x])
+            os.system("python3 spreadsheetFilebased.py " + databaseTypes[i] + " " + databaseNames[x] + " commands.in " + resultNames[x] + ".txt")
+        print("done with " + databaseTypes[i])
+

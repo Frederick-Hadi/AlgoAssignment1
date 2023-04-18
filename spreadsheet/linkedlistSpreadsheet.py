@@ -1,6 +1,6 @@
 from spreadsheet.baseSpreadsheet import BaseSpreadsheet
 from spreadsheet.cell import Cell
-
+import time
 
 # class ListNode:
 #     '''
@@ -254,6 +254,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         Construct the data structure to store nodes.
         @param lCells: list of cells to be stored
         """
+        start = time.perf_counter()
         currRow = -1
         #llRow = DoubleLinkedList()
         maxRows = 0
@@ -295,7 +296,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         
         #self.spread.printLL()
         #print("sheet built")
-
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For creating a LL: " +str(timeTaken) + " of size " + str(maxRows) + "x" + str(maxCols)+"\n")
+        f.close()
 
 
 
@@ -303,9 +308,15 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         Appends an empty row to the spreadsheet.
         """
+        start = time.perf_counter()
         self.spread.append(Node(DoubleLinkedList()),True)
         #print("after")
         #self.spread.printLL()
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For appending row: " +str(timeTaken)+"\n")
+        f.close()
         return True
         # TO BE IMPLEMENTED
         
@@ -317,6 +328,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not.
         """
+        start = time.perf_counter()
         currN = self.spread.head
         if currN == None:
             return False
@@ -326,6 +338,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
             currN = currN.next
         #print("after append col")
         #self.spread.printLL()
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For appending col: " +str(timeTaken)+"\n")
+        f.close()
         return True
 
 
@@ -337,6 +354,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return True if operation was successful, or False if not, e.g., rowIndex is invalid.
         """
+        start = time.perf_counter()
         if rowIndex < 0 or rowIndex > self.spread.len:
             return False
         
@@ -344,6 +362,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         self.spread.insertAt(rowIndex, Node(newNode,rowIndex))
         #print("after insert row")
         #self.spread.printLL()
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For insert row: " +str(timeTaken)+"\n")
+        f.close()
         return True
         
 
@@ -354,6 +377,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @param colIndex Index of the existing column that will be before the newly inserted row.  If inserting as first column, specify colIndex to be -1.
         """
+        start = time.perf_counter()
         if self.spread.head ==None:
             return False
         colVals = self.spread.head.value.len
@@ -367,7 +391,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
             currN = currN.next
         #print("after insert col")
         #self.spread.printLL()  
-        
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For insert col: " +str(timeTaken) +"\n")
+        f.close()
         # REPLACE WITH APPROPRIATE RETURN VALUE
         return True
 
@@ -382,6 +410,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return True if cell can be updated.  False if cannot, e.g., row or column indices do not exist.
         """
+        start = time.perf_counter()
         #print(self.spread.len)
         #print(self.spread.head.value.len)
         #print("updating row: ",rowIndex," col ",colIndex," with value: ",value)
@@ -417,6 +446,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         
         #print("after update")
         #self.spread.printLL()
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For update: " +str(timeTaken)+"\n")
+        f.close()
         return True
 
 
@@ -424,8 +458,13 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         @return Number of rows the spreadsheet has.
         """
-
+        start = time.perf_counter()
         # TO BE IMPLEMENTED
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For rowNum: " +str(timeTaken)+"\n")
+        f.close()
         return self.spread.len
 
 
@@ -433,8 +472,13 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
         @return Number of column the spreadsheet has.
         """
-
+        start = time.perf_counter()
         # TO BE IMPLEMENTED
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For colNum: " +str(timeTaken)+"\n")
+        f.close()
         return self.spread.head.value.len
 
 
@@ -447,7 +491,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         @return List of cells (row, col) that contains the input value.
 	    """
-
+        start = time.perf_counter()
         currN = self.spread.head
         values = []
         while currN != None:
@@ -457,6 +501,11 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
 
         #print("this was values: ", values)
         # REPLACE WITH APPROPRIATE RETURN VALUE
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For find: " +str(timeTaken)+"\n")
+        f.close()
         return values
 
 
@@ -467,7 +516,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         """
 
         # TO BE IMPLEMENTED
-        
+        start = time.perf_counter()
         #return all non none celss
         currN = self.spread.head
         values = []
@@ -477,4 +526,9 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
             currN = currN.next
         #print("this was values, entries: ", values)
         # TO BE IMPLEMENTED
+        end = time.perf_counter()
+        timeTaken = end - start
+        with open("excalibur.txt", "a") as f:
+            f.write("For entries: " +str(timeTaken)+"\n")
+        f.close()
         return values
