@@ -301,7 +301,7 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         timeTaken = end - start
         self.built = True
         with open("excalibur.txt", "a") as f:
-            f.write("For creating a LL: " +str(timeTaken) + " of size " + str(maxRows) + "x" + str(maxCols)+"\n")
+            f.write("For creating a LL: " +str(timeTaken) + " of size " + str(self.rowNum()) + "x" + str(self.colNum())+"\n")
         f.close()
 
 
