@@ -14,9 +14,8 @@ def write_txt_file(filename, r,c, u_range):
         rowRange = (0,maxRows)
         colRange = (0,maxCols)
         # 0.3 would be percentage
-        x = sparsity(r*c,0.3)
+        x = sparsity(r*c,0.7)
         values = []
-
         #generating random values in random rows and cols
         for i in range(x):
             t = round(random.randint(rowRange[0], rowRange[1]), 2)
@@ -64,15 +63,22 @@ listOfCommands = ["R\n", "C\n", "AR\n", "AC\n", "F", "U", "IR", "IC", "E\n"]
 databaseSizes = [5,10,50,100,250,500]
 
 #holds the randomly generated databases
+# so for example saber would hold the list of values for a 5x5 database
+# lancer would hold the list of values for a 10x10 database and so on
 databaseNames = ["Saber", "Lancer", "Archer", "Rider", "Assassin", "Berserker"]
 
 #hold the results of if the commands worked or not
+#again same thing, shirou holds the list of values for the 5x5 database\
+#kiritsugu holds the list of values for the 10x10 database and so on
 resultNames = ["Shirou","Kiritsugu","Rin","Sakura","Kirei","Illya"]
 
 #straight forward
 databaseTypes = ["csr", "linkedlist", "array"]
 
 #holds the times in the order of databaseTypes
+#so enuma would hold the recorded times for csr
+#excalibur would hold the recorded times for linkedlist
+#gae would hold the recorded times for array
 overall = ["enuma.txt","excalibur.txt","gae.txt"]
 
 for i in range (3):
@@ -89,4 +95,4 @@ for i in range (3):
                 f.write(f"_____________________________________________________________________________\n")
                 f.close()
         print("done with " + databaseTypes[i])
-
+    
