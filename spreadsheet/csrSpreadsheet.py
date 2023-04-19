@@ -106,6 +106,13 @@ class CSRSpreadsheet(BaseSpreadsheet):
                         self.colA.insert(index_to_insert, cell.col)
                         self.valA.insert(index_to_insert, cell.val)
                         break
+                    elif cell.col == self.colA[index_to_insert]:
+                        old_val = self.valA[index_to_insert]
+                        for i in range(cell.row + 1, len(self.sumA)):
+                            self.sumA[i] -= old_val
+                        # update the new value in valA
+                        self.valA[index_to_insert] = cell.val
+                        break
                 else:
                     # reached the end of the row, meaning this is a previously null cell
                     # and is also the latest column that has a value, so insert appropriately.
@@ -282,9 +289,9 @@ class CSRSpreadsheet(BaseSpreadsheet):
                     # there was already a value in this spreadsheet cell
                     # so subtract what used to be there from sum to fully update
                     for i in range(rowIndex + 1, len(self.sumA)):
-                        self.sumA[i] -= self.valA[val_index - 1]
+                        self.sumA[i] -= self.valA[index_to_insert]
                     # update the new value in valA
-                    self.valA[val_index - 1] = value
+                    self.valA[index_to_insert] = value
                     break
                 elif colIndex < self.colA[index_to_insert]:
                     # if not equal but is less than, that means an empty cell
