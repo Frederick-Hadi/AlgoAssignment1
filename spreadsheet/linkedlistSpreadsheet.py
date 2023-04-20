@@ -51,11 +51,14 @@ class DoubleLinkedList:
 
     def printLL(self):
         currNode = self.head
+        row = 0
         while currNode != None:
+            col = 0
             x = currNode.value.head
             while x != None:
-                print("At row: ",x.row, "column: ",x.col,", the value is: ",x.value)
+                print("At row: ",row, "column: ",col,", the value is: ",x.value)
                 x = x.next
+                col += 1
             print()
             currNode = currNode.next
         
@@ -152,7 +155,7 @@ class DoubleLinkedList:
         value.prev = prevN
         prevN.next = value
         currNode.prev = value
-        self.correctValsRows(value)
+        #self.correctValsRows(value)
         self.len += 1
 
 
@@ -197,7 +200,8 @@ class DoubleLinkedList:
         value.prev = prevN
         prevN.next = value
         currNode.prev = value
-        self.correctValsCols(value)
+        self.len += 1
+        #self.correctValsCols(value)
         
        
 
@@ -219,24 +223,29 @@ class DoubleLinkedList:
             #print("Updating value at row: ",currNode.row," column: ",currNode.col," from:" ,currNode.value," to: ",val)
             currNode.value = val
     
-    def findVals(self, value):
+    def findVals(self, value,row):
         currNode = self.head
         listOfNodes = []
+        col = 0
         while currNode != None:
             if currNode.value == value:
-                listOfNodes.append((currNode.row,currNode.col))
+                listOfNodes.append((row,col))
             currNode = currNode.next
+            col += 1
         #print(listOfNodes)
         return listOfNodes
     
-    def findNonEmpty(self):
+    def findNonEmpty(self,row):
         currNode = self.head
         listOfNodes = []
+        
+        col = 0
         while currNode != None:
             if currNode.value != None:
-                listOfNodes.append(Cell(currNode.row,currNode.col,currNode.value))
+                listOfNodes.append(Cell(row,col,currNode.value))
                 #print("ran")
             currNode = currNode.next
+            col += 1
         return listOfNodes
             
 
@@ -499,10 +508,12 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         start = time.perf_counter()
         currN = self.spread.head
         values = []
+        row = 0
         while currN != None:
             currRowN = currN.value
-            values  += currRowN.findVals(value)
+            values  += currRowN.findVals(value,row)
             currN = currN.next
+            row += 1
 
         #print("this was values: ", values)
         # REPLACE WITH APPROPRIATE RETURN VALUE
@@ -525,10 +536,12 @@ class LinkedListSpreadsheet(BaseSpreadsheet):
         #return all non none celss
         currN = self.spread.head
         values = []
+        row = 0
         while currN != None:
             currRowN = currN.value
-            values  += currRowN.findNonEmpty()
+            values  += currRowN.findNonEmpty(row)
             currN = currN.next
+            row +=1
         #print("this was values, entries: ", values)
         # TO BE IMPLEMENTED
         end = time.perf_counter()

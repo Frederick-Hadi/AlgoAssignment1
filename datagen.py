@@ -24,7 +24,9 @@ def write_txt_file(filename, r,c, u_range):
             y = round(random.randint(colRange[0], colRange[1]), 2)
             if y > uMax:
                 uMax = y
-            u = round(random.uniform(u_range[0], u_range[1])*10, 3)
+            u = 0
+            while u != 0:
+                u = round(random.uniform(u_range[0], u_range[1]), 2)
             if u > valMax:
                 valMax = u
             values.append((t,y,u))
