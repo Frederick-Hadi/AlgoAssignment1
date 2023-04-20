@@ -36,34 +36,19 @@ class CSRSpreadsheet(BaseSpreadsheet):
         """
         # assume row is a reasonable value range of [0, n]
         # where 0 is the first row and n = self.rows
-        # self.print_summary()
         start = time.perf_counter()
         for cell in lCells:
-            
-            # print("Attempting adding (", cell.row, cell.col, cell.val, ") while rows is", self.rowNum(), "and columns is", self.colNum())
-            # print(self.sumA[-1])
-            
-            # self.print_summary()
-
-            # --------------
             # UPDATING sumA
             # --------------
             if cell.row > self.rowNum() - 1:
                 # extend the end of the array to match with new last row
                 # with the repeated value at the end of the original array
-                # print([self.sumA[-1]] * (cell.row - self.rowNum() + 1))
                 self.sumA.extend([self.sumA[-1]] * (cell.row - self.rowNum() + 1))
-            
-
-            # print("Current sum at row: ", self.sumA[cell.row+1])
-            
 
             # update sum
-            # self.sumA[-1] += cell.val
             old_sum_val = self.sumA[cell.row + 1]
             for i in range(cell.row + 1, len(self.sumA)):
                 self.sumA[i] += cell.val
-            # print(self.sumA)
 
             # --------------
             # UPDATING colA and valA
@@ -79,14 +64,9 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 curr_sum = 0
                 val_index = 0
 
-                # print()
-                # print("----------------------------------------------------------")
                 while math.isclose(old_sum_val, curr_sum, abs_tol=self.abs_tol) == False:
-                # while math.isclose(self.sumA[cell.row + 1] - curr_sum, cell.val) == False:
                     curr_sum += self.valA[val_index]
                     val_index += 1
-                    # print(len( self.valA), "trying to access", val_index)
-                    # print(old_sum_val, "must equal", curr_sum, cell.row)
                 
                 # prev_row_index is the index of the first value of the updated row
                 prev_val_index = 0
@@ -96,9 +76,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                     curr_sum += self.valA[prev_val_index]
                     prev_val_index += 1
 
-
-                # print(prev_val_index)
-                # print(val_index)
                 for index_to_insert in range(prev_val_index, val_index):
                     if cell.col < self.colA[index_to_insert]:
                         # if not equal but is less than, that means an empty cell
@@ -119,13 +96,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                     # val_index has this
                     self.colA.insert(val_index, cell.col)
                     self.valA.insert(val_index, cell.val)
-            
-            # print("AFTER:")
-            # self.print_summary()
-            # print() 
-            # print("Sum afterwards: ", self.sumA[cell.row+1])
-            # print()
-
         
         end = time.perf_counter()
         timeTaken = end - start
@@ -135,8 +105,7 @@ class CSRSpreadsheet(BaseSpreadsheet):
         f.close()
         self.built = True          
 
-        
-
+    
 
     def appendRow(self):
         """
@@ -154,7 +123,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 with open("enuma.txt", "a") as f:
                     f.write("For appending row: " +str(timeTaken)+"\n")
                 f.close()
-            
             return True
         else:
             return False
@@ -219,8 +187,8 @@ class CSRSpreadsheet(BaseSpreadsheet):
             # update new highest index column
             if colIndex > self.columns:
                 self.columns = colIndex
-            # for i in range(colIndex, len(self.colA)):
-            #     self.colA[i] += 1
+
+            # all columns after specified column increase by one
             for i in range(len(self.colA)):
                 if self.colA[i] > colIndex:
                     self.colA[i] += 1
@@ -248,9 +216,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
         if rowIndex < -1 or rowIndex > self.rowNum() or colIndex < -1 or colIndex > self.columns:
             return False
         else:
-            # print("UPDATE: (", rowIndex, colIndex, value, ") while rows is", self.rowNum(), "and columns is", self.colNum())
-            # self.print_summary()
-
             # update sum
             for i in range(rowIndex + 1, len(self.sumA)):
                 self.sumA[i] += value
@@ -265,12 +230,9 @@ class CSRSpreadsheet(BaseSpreadsheet):
             
             # val_index is the index of the last val in the row that contains the updated cell
             # but one extra
-            # print(len(self.sumA), rowIndex + 1)
-            # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
             while math.isclose(self.sumA[rowIndex + 1] - curr_sum, value, abs_tol=self.abs_tol) == False:
                 curr_sum += self.valA[val_index]
                 val_index += 1
-                # print(self.sumA[rowIndex + 1], "-", curr_sum, "=", value, math.isclose(self.sumA[rowIndex + 1] - curr_sum, value))
             
 
             # prev_row_index is the index of the first value of the updated row
@@ -282,8 +244,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 prev_val_index += 1
 
 
-            # print(prev_val_index)
-            # print(val_index)
             for index_to_insert in range(prev_val_index, val_index):
                 if colIndex == self.colA[index_to_insert]:
                     # there was already a value in this spreadsheet cell
@@ -311,8 +271,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 with open("enuma.txt", "a") as f:
                     f.write("For update: " +str(timeTaken)+"\n")
                 f.close()
-            # print("AFTER:")
-            # self.print_summary()
             return True
 
 
@@ -385,8 +343,6 @@ class CSRSpreadsheet(BaseSpreadsheet):
                 f.write("For find: " +str(timeTaken)+"\n")
             f.close()
         return matches
-
-
 
 
     def entries(self) -> [Cell]:
