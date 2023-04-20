@@ -59,6 +59,7 @@ class DoubleLinkedList:
                 print("At row: ",row, "column: ",col,", the value is: ",x.value)
                 x = x.next
                 col += 1
+            row +=1
             print()
             currNode = currNode.next
         
